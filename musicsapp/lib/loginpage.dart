@@ -36,18 +36,18 @@ class _LoginpageState extends State<Loginpage> {
                     SizedBox(
                       width: 120,
                     ),
-                    Container(
-                      // height: 60,
-                      // width: 70,
-                      child: Center(
-                          child: Text(
-                        "Login",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold),
-                      )),
-                    )
+                    // Container(
+                    //   // height: 60,
+                    //   // width: 70,
+                    //   child: Center(
+                    //       child: Text(
+                    //     "Login",
+                    //     style: TextStyle(
+                    //         color: Colors.white,
+                    //         fontSize: 20,
+                    //         fontWeight: FontWeight.bold),
+                    //   )),
+                    // )
                   ],
                 ),
               ),
@@ -94,7 +94,7 @@ class _LoginpageState extends State<Loginpage> {
                     gradient: LinearGradient(
                       colors: [
                         const Color.fromARGB(255, 41, 41, 41),
-                        const Color.fromARGB(255, 65, 64, 64),
+                        const Color.fromARGB(255, 85, 84, 84),
                       ],
                     )),
                 child: Row(
@@ -116,13 +116,13 @@ class _LoginpageState extends State<Loginpage> {
                       margin: EdgeInsets.only(left: 10),
                       child: TextButton(
                           onPressed: () {
-                            Navigator.pushNamed(context, "musicapp");
+                            Navigator.pushNamed(context, "songslist");
                           },
                           child: Text(
                             "Sign in with Google",
                             style: TextStyle(
                                 color: Colors.white,
-                                fontWeight: FontWeight.bold,
+                                // fontWeight: FontWeight.bold,
                                 fontSize: 16),
                           )),
                     )
