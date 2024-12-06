@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:musicapp/loginpage.dart';
+import 'package:musicapp/musicpage.dart';
 
 class Songslist extends StatefulWidget {
   const Songslist({super.key});
@@ -7,7 +9,20 @@ class Songslist extends StatefulWidget {
   State<Songslist> createState() => _SongslistState();
 }
 
-class _SongslistState extends State<Songslist> {
+class _SongslistState extends State<Songslist>with SingleTickerProviderStateMixin {
+  late TabController _tabController;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+     _tabController = TabController(length: 4, vsync: this);
+  }
+
+   void dispose() {
+    // Dispose of the TabController to avoid memory leaks
+    _tabController.dispose();
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -15,7 +30,7 @@ class _SongslistState extends State<Songslist> {
         decoration: BoxDecoration(
             gradient: LinearGradient(
                 colors: [Colors.black, const Color.fromARGB(255, 87, 86, 86)])),
-        child: ListView(
+        child: Column(
           children: [
             Container(
               padding: EdgeInsets.only(left: 15, top: 10),
@@ -111,6 +126,44 @@ class _SongslistState extends State<Songslist> {
                 ],
               ),
             ),
+            SizedBox(height: 20,),
+            Container(
+              child: TabBar(
+                unselectedLabelColor: Colors.white,
+                dividerColor: Colors.transparent,
+                controller: _tabController,
+                tabs: [
+                Tab(text: "All Songs",),
+                Tab(text: "Artist",),
+                Tab(text: "Albums",),
+                Tab(text: "Favourite",)
+              ]),
+            ),
+            Expanded(
+              child:TabBarView(
+              controller: _tabController,
+              children: [
+              Container(
+                child: Center(
+                  child: Text("no songs"),
+                ),
+              ),
+               Container(
+                child: Center(
+                  child: Text("no songs"),
+                ),
+              ),
+               Container(
+                child: Center(
+                  child: Text("no songs"),
+                ),
+              ),
+               Container(
+                child: Center(
+                  child: Text("no songs"),
+                ),
+              )
+            ]) )
           ],
         ),
       ),

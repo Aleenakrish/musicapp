@@ -51,20 +51,24 @@ class _LoginpageState extends State<Loginpage> {
                   ],
                 ),
               ),
-              SizedBox(
-                height: 40,
+              // SizedBox(
+              //   height: 40,
+              // ),
+              Container(
+                child: Center(child: Text("Welcome",style: TextStyle(color: Colors.white,fontSize: 27,fontWeight: FontWeight.bold),)),
               ),
+              SizedBox(height: 50,),
               Container(
                 height: 310,
                 width: 310,
                 alignment: Alignment.center,
-                child: Container(
-                  height: 300,
-                  width: 300,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(150),
-                      color: const Color.fromARGB(255, 104, 103, 103)),
-                  alignment: Alignment.center,
+                // child: Container(
+                //   height: 300,
+                //   width: 300,
+                //   decoration: BoxDecoration(
+                //       borderRadius: BorderRadius.circular(150),
+                //       color: const Color.fromARGB(255, 104, 103, 103)),
+                  // alignment: Alignment.center,
                   child: Container(
                       // margin: EdgeInsets.only(left: 20,right: 20),
                       height: 290,
@@ -80,23 +84,25 @@ class _LoginpageState extends State<Loginpage> {
                           fit: BoxFit.cover,
                         ),
                       )),
-                ),
+                // ),
               ),
               SizedBox(
-                height: 130,
+                height: 100,
               ),
               Container(
                 margin: EdgeInsets.only(left: 30, right: 30),
-                height: 70,
+                height: 60,
                 width: 300,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(15),
-                    gradient: LinearGradient(
-                      colors: [
-                        const Color.fromARGB(255, 41, 41, 41),
-                        const Color.fromARGB(255, 85, 84, 84),
-                      ],
-                    )),
+                    // gradient: LinearGradient(
+                    //   colors: [
+                    //     const Color.fromARGB(255, 41, 41, 41),
+                    //     const Color.fromARGB(255, 85, 84, 84),
+                    //   ],
+                    // )
+                    color: Colors.white
+                    ),
                 child: Row(
                   children: [
                     Container(
@@ -109,7 +115,7 @@ class _LoginpageState extends State<Loginpage> {
                       child: ClipRRect(
                           borderRadius: BorderRadius.circular(150),
                           child: Image.asset(
-                            "./images/google.jpg",
+                            "./images/g.jpg",
                           )),
                     ),
                     Container(
@@ -121,7 +127,7 @@ class _LoginpageState extends State<Loginpage> {
                           child: Text(
                             "Sign in with Google",
                             style: TextStyle(
-                                color: Colors.white,
+                                color: Colors.black,
                                 // fontWeight: FontWeight.bold,
                                 fontSize: 16),
                           )),

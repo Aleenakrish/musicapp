@@ -9,7 +9,8 @@ void main() {
     home: Loginpage(),
     routes: {
       "musicapp": (context) => Musicpage(),
-      "songslist": (context) => Songslist()
+      "songslist": (context) => Songslist(),
+      
     },
   ));
 }
