@@ -121,9 +121,7 @@ class _SongslistState extends State<Songslist>
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(100)),
                             child: IconButton(
-                                onPressed: () {
-                                  Navigator.pushNamed(context, "musicapp");
-                                },
+                                onPressed: () {},
                                 icon: Icon(
                                   Icons.cancel_outlined,
                                   color:
@@ -167,71 +165,134 @@ class _SongslistState extends State<Songslist>
                   child: ListView.builder(
                       itemCount: 1,
                       itemBuilder: (context, index) {
-                        return Container(
-                          child: Container(
-                              // height: 50,
-                              color: Colors.transparent,
-                              child: Row(
-                                children: [
-                                  Container(
-                                    margin: EdgeInsets.only(left: 10),
-                                    height: 70,
-                                    width: 70,
+                        return ListTile(
+                          onLongPress: () {
+                            showBottomSheet(
+                              context: context,
+                              builder: (context) {
+                                return Container(
                                     decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(15),
-                                        color: Colors.transparent),
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(15),
-                                      child: Image.asset(
-                                        "./images/shapofyou.jpg",
-                                        fit: BoxFit.cover,
-                                      ),
+                                      borderRadius: BorderRadius.vertical(
+                                          top: Radius.circular(25)),
+                                      color:
+                                          const Color.fromARGB(255, 70, 69, 69),
                                     ),
-                                  ),
-                                  Container(
+                                    height: 400,
+                                    width: double.infinity,
                                     child: Column(
                                       children: [
                                         Container(
-                                          padding:
-                                              EdgeInsets.only(top: 4, left: 15),
+                                          padding: EdgeInsets.only(top: 10),
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(25),
+                                            color: Colors.transparent,
+                                          ),
+                                          // height: 400,
                                           child: Text(
-                                            "Shape of You",
+                                            "Shap of You",
                                             style: TextStyle(
                                                 color: Colors.white,
-                                                fontSize: 16),
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.bold),
                                           ),
                                         ),
                                         Container(
-                                          child: Text("Ed Sheeran",
-                                              style: TextStyle(
-                                                  color: const Color.fromARGB(
-                                                      255, 156, 156, 156))),
+                                          child: Text(
+                                            "Ed Sheeran",
+                                            style: TextStyle(
+                                              color: const Color.fromARGB(
+                                                  255, 216, 215, 215),
+                                              fontSize: 13,
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          height: 10,
+                                        ),
+                                        Container(
+                                          height: 1,
+                                          width: 360,
+                                          color: Colors.grey,
+                                          // child: ,
                                         )
                                       ],
+                                    ));
+                              },
+                            );
+                          },
+                          onTap: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => Musicpage(),
+                            ));
+                          },
+                          title: Container(
+                            child: Container(
+                                // height: 50,
+                                color: Colors.transparent,
+                                child: Row(
+                                  children: [
+                                    Container(
+                                      margin: EdgeInsets.only(left: 10),
+                                      height: 70,
+                                      width: 70,
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(15),
+                                          color: Colors.transparent),
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(15),
+                                        child: Image.asset(
+                                          "./images/shapofyou.jpg",
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
                                     ),
-                                  ),
-                                  Spacer(),
-                                  Container(
-                                    child: IconButton(
-                                        onPressed: () {
-                                          setState(() {
-                                            play = !play;
-                                          });
-                                        },
-                                        icon: play
-                                            ? Icon(
-                                                Icons.pause,
-                                                size: 35,
-                                                color: Colors.white,
-                                              )
-                                            : Icon(
-                                                Icons.play_circle,
-                                                color: Colors.white,
-                                                size: 40,
-                                              )),
-                                  )
-                                ],
-                              )),
+                                    Container(
+                                      child: Column(
+                                        children: [
+                                          Container(
+                                            padding: EdgeInsets.only(
+                                                top: 4, left: 15),
+                                            child: Text(
+                                              "Shape of You",
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 16),
+                                            ),
+                                          ),
+                                          Container(
+                                            child: Text("Ed Sheeran",
+                                                style: TextStyle(
+                                                    color: const Color.fromARGB(
+                                                        255, 156, 156, 156))),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                    Spacer(),
+                                    Container(
+                                      child: IconButton(
+                                          onPressed: () {
+                                            setState(() {
+                                              play = !play;
+                                            });
+                                          },
+                                          icon: play
+                                              ? Icon(
+                                                  Icons.pause,
+                                                  size: 35,
+                                                  color: Colors.white,
+                                                )
+                                              : Icon(
+                                                  Icons.play_arrow,
+                                                  color: Colors.white,
+                                                  size: 35,
+                                                )),
+                                    )
+                                  ],
+                                )),
+                          ),
                         );
                       })),
               Container(

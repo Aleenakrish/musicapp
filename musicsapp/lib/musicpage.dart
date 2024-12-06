@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:musicapp/songslist.dart';
 
 class Musicpage extends StatefulWidget {
   const Musicpage({super.key});
@@ -8,11 +9,13 @@ class Musicpage extends StatefulWidget {
 }
 
 class _MusicpageState extends State<Musicpage> {
+  double he = 0;
   bool repeat = false;
   bool shuffle = false;
   bool _isrotation = false;
   bool favorite = false;
   bool play = true;
+  bool arrow = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,7 +37,12 @@ class _MusicpageState extends State<Musicpage> {
                         Container(
                             margin: EdgeInsets.only(left: 10),
                             child: IconButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => Songslist()));
+                              },
                               icon: Icon(
                                 Icons.arrow_back,
                                 color: Colors.white,
@@ -321,7 +329,63 @@ class _MusicpageState extends State<Musicpage> {
                               ),
                       ))
                 ],
-              )
+              ),
+              AnimatedContainer(
+                padding: EdgeInsets.only(top: 20),
+                height: he,
+                width: double.infinity,
+                color: Colors.transparent,
+                duration: Duration(seconds: 3),
+                child: Center(
+                  child: Text(
+                    "No Lyrics",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+              ),
+              Container(
+                child: he == 0
+                    ? IconButton(
+                        onPressed: () {
+                          setState(() {
+                            he = 200;
+                          });
+                          arrow = !arrow;
+                        },
+                        icon: arrow
+                            ? Icon(
+                                Icons.keyboard_arrow_up_outlined,
+                                color: Colors.white,
+                                size: 40,
+                              )
+                            : Icon(
+                                Icons.keyboard_arrow_down,
+                                color: Colors.white,
+                                size: 40,
+                              ))
+                    : he == 200
+                        ? IconButton(
+                            onPressed: () {
+                              setState(() {
+                                he = 0;
+                              });
+                              arrow = !arrow;
+                            },
+                            icon: arrow
+                                ? Icon(
+                                    Icons.keyboard_arrow_up_outlined,
+                                    color: Colors.white,
+                                    size: 40,
+                                  )
+                                : Icon(
+                                    Icons.keyboard_arrow_down,
+                                    color: Colors.white,
+                                    size: 40,
+                                  ))
+                        : Icon(Icons.ac_unit_rounded),
+              ),
+
+              // showbottomsheet
             ],
           )),
     );
