@@ -8,6 +8,18 @@ class Loginpage extends StatefulWidget {
 }
 
 class _LoginpageState extends State<Loginpage> {
+  double _opacity = 0.0;
+  @override
+  void initState() {
+    super.initState();
+    // Delay the fade-in animation
+    Future.delayed(Duration(seconds: 1), () {
+      setState(() {
+        _opacity = 1.0;
+      });
+    });
+  }
+
   //https://i1.sndcdn.com/avatars-cdAKzhi1JITtzW6V-qDBkHQ-t1080x1080.jpg
   @override
   Widget build(BuildContext context) {
@@ -15,10 +27,11 @@ class _LoginpageState extends State<Loginpage> {
       backgroundColor: Colors.black,
       body: Container(
           decoration: BoxDecoration(
-              gradient: LinearGradient(
-                  colors: [Colors.black, const Color.fromARGB(255, 87, 86, 86)],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight)),
+              // gradient: LinearGradient(
+              // colors: [Colors.black, const Color.fromARGB(255, 87, 86, 86)],
+              // begin: Alignment.topLeft,
+              // end: Alignment.bottomRight)
+              color: Colors.black),
           child: ListView(
             children: [
               Container(
@@ -55,9 +68,18 @@ class _LoginpageState extends State<Loginpage> {
               //   height: 40,
               // ),
               Container(
-                child: Center(child: Text("Welcome",style: TextStyle(color: Colors.white,fontSize: 27,fontWeight: FontWeight.bold),)),
+                child: Center(
+                    child: Text(
+                  "Welcome",
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 27,
+                      fontWeight: FontWeight.bold),
+                )),
               ),
-              SizedBox(height: 50,),
+              SizedBox(
+                height: 50,
+              ),
               Container(
                 height: 310,
                 width: 310,
@@ -68,26 +90,21 @@ class _LoginpageState extends State<Loginpage> {
                 //   decoration: BoxDecoration(
                 //       borderRadius: BorderRadius.circular(150),
                 //       color: const Color.fromARGB(255, 104, 103, 103)),
-                  // alignment: Alignment.center,
-                  child: Container(
-                      // margin: EdgeInsets.only(left: 20,right: 20),
-                      height: 290,
-                      width: 290,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(150),
-                          color: Colors.black),
-                      // alignment: Alignment.center,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(150),
-                        child: Image.asset(
-                          "./images/name.jpg",
-                          fit: BoxFit.cover,
-                        ),
-                      )),
-                // ),
+                // alignment: Alignment.center,
+                child: Center(
+                  child: AnimatedOpacity(
+                    opacity: _opacity,
+                    duration: Duration(seconds: 4),
+                    child: Image.asset(
+                      "./images/r.jpg",
+                      fit: BoxFit.cover,
+                    ), // Replace with your image path
+                  ),
+                ),
               ),
+
               SizedBox(
-                height: 100,
+                height: 170,
               ),
               Container(
                 margin: EdgeInsets.only(left: 30, right: 30),
@@ -97,25 +114,24 @@ class _LoginpageState extends State<Loginpage> {
                     borderRadius: BorderRadius.circular(15),
                     // gradient: LinearGradient(
                     //   colors: [
-                    //     const Color.fromARGB(255, 41, 41, 41),
+                    //     Colors.black,
                     //     const Color.fromARGB(255, 85, 84, 84),
                     //   ],
-                    // )
-                    color: Colors.white
-                    ),
+                    // ),
+                    color: Colors.transparent),
                 child: Row(
                   children: [
                     Container(
-                      margin: EdgeInsets.only(left: 30),
-                      height: 50,
-                      width: 50,
+                      margin: EdgeInsets.only(left: 40),
+                      height: 40,
+                      width: 40,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(100),
                       ),
                       child: ClipRRect(
                           borderRadius: BorderRadius.circular(150),
                           child: Image.asset(
-                            "./images/g.jpg",
+                            "./images/search.png",
                           )),
                     ),
                     Container(
@@ -127,7 +143,7 @@ class _LoginpageState extends State<Loginpage> {
                           child: Text(
                             "Sign in with Google",
                             style: TextStyle(
-                                color: Colors.black,
+                                color: Colors.white,
                                 // fontWeight: FontWeight.bold,
                                 fontSize: 16),
                           )),

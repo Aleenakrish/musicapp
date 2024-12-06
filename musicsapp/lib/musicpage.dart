@@ -8,6 +8,8 @@ class Musicpage extends StatefulWidget {
 }
 
 class _MusicpageState extends State<Musicpage> {
+  bool repeat = false;
+  bool shuffle = false;
   bool _isrotation = false;
   bool favorite = false;
   bool play = true;
@@ -41,7 +43,7 @@ class _MusicpageState extends State<Musicpage> {
                         Column(
                           children: [
                             Container(
-                              margin: EdgeInsets.only(left: 100, top: 10),
+                              margin: EdgeInsets.only(left: 90, top: 10),
                               child: Text(
                                 "NOW PLAYING",
                                 style: TextStyle(
@@ -51,9 +53,9 @@ class _MusicpageState extends State<Musicpage> {
                               ),
                             ),
                             Container(
-                              margin: EdgeInsets.only(left: 100, top: 5),
+                              margin: EdgeInsets.only(left: 90, top: 5),
                               child: Text(
-                                "Alan Walker ",
+                                "Shape of You",
                                 style: TextStyle(
                                     fontSize: 16, color: Colors.white),
                               ),
@@ -61,12 +63,14 @@ class _MusicpageState extends State<Musicpage> {
                           ],
                         ),
                         Container(
-                          margin: EdgeInsets.only(left: 80),
-                          child: Icon(
-                            Icons.more_vert_outlined,
-                            color: Colors.white,
-                          ),
-                        )
+                            margin: EdgeInsets.only(left: 70),
+                            child: IconButton(
+                              onPressed: () {},
+                              icon: Icon(
+                                Icons.more_vert_outlined,
+                                color: Colors.white,
+                              ),
+                            ))
                       ],
                     ),
                   ),
@@ -138,7 +142,7 @@ class _MusicpageState extends State<Musicpage> {
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(150),
                               child: Image.asset(
-                                "./images/log.jpeg",
+                                "./images/shapofyou.jpg",
                                 fit: BoxFit.cover,
                               ),
                             )),
@@ -150,7 +154,7 @@ class _MusicpageState extends State<Musicpage> {
                   ),
                   Container(
                     child: Text(
-                      "Faded",
+                      "Shape of You",
                       style: TextStyle(
                           fontSize: 18,
                           color: Colors.white,
@@ -162,7 +166,7 @@ class _MusicpageState extends State<Musicpage> {
                   ),
                   Container(
                     child: Text(
-                      "Alan Walker",
+                      "Ed Sheeran",
                       style: TextStyle(
                         fontSize: 14,
                         color: const Color.fromARGB(255, 139, 139, 139),
@@ -236,30 +240,41 @@ class _MusicpageState extends State<Musicpage> {
                 ],
               ),
               SizedBox(
-                height: 30,
+                height: 35,
               ),
               Row(
                 // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 // crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
-                    margin: EdgeInsets.only(left: 25),
-                    child: Icon(
-                      Icons.shuffle,
-                      color: Colors.white,
-                      size: 25,
-                    ),
-                  ),
+                      margin: EdgeInsets.only(left: 10),
+                      child: IconButton(
+                        onPressed: () {
+                          setState(() {
+                            shuffle = !shuffle;
+                          });
+                        },
+                        icon: shuffle
+                            ? Icon(
+                                Icons.shuffle,
+                                color: Colors.green,
+                              )
+                            : Icon(
+                                Icons.shuffle,
+                                color: Colors.white,
+                                size: 25,
+                              ),
+                      )),
                   Container(
-                    margin: EdgeInsets.only(left: 40),
+                    margin: EdgeInsets.only(left: 30),
                     child: Icon(
                       Icons.skip_previous,
-                      size: 40,
+                      size: 50,
                       color: Colors.white,
                     ),
                   ),
                   Container(
-                      margin: EdgeInsets.only(right: 25, left: 20),
+                      margin: EdgeInsets.only(left: 10),
                       child: IconButton(
                           onPressed: () {
                             setState(() {
@@ -270,30 +285,41 @@ class _MusicpageState extends State<Musicpage> {
                           icon: play
                               ? Icon(
                                   Icons.play_circle,
-                                  size: 55,
+                                  size: 70,
                                   color: Colors.white,
                                 )
                               : Icon(
                                   Icons.pause,
                                   color: Colors.white,
-                                  size: 55,
+                                  size: 70,
                                 ))),
                   Container(
-                    margin: EdgeInsets.only(right: 40),
+                    margin: EdgeInsets.only(left: 10, right: 20),
                     child: Icon(
                       Icons.skip_next,
-                      size: 40,
+                      size: 50,
                       color: Colors.white,
                     ),
                   ),
                   Container(
-                    margin: EdgeInsets.only(right: 15),
-                    child: Icon(
-                      Icons.repeat_outlined,
-                      size: 25,
-                      color: Colors.white,
-                    ),
-                  )
+                      margin: EdgeInsets.only(left: 10),
+                      child: IconButton(
+                        onPressed: () {
+                          setState(() {
+                            repeat = !repeat;
+                          });
+                        },
+                        icon: repeat
+                            ? Icon(
+                                Icons.repeat,
+                                color: Colors.green,
+                              )
+                            : Icon(
+                                Icons.repeat_outlined,
+                                size: 25,
+                                color: Colors.white,
+                              ),
+                      ))
                 ],
               )
             ],
