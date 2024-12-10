@@ -1,5 +1,9 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:musicapp/songslist.dart';
+import 'package:path_provider/path_provider.dart';
 
 class Musicpage extends StatefulWidget {
   const Musicpage({super.key});
@@ -9,6 +13,12 @@ class Musicpage extends StatefulWidget {
 }
 
 class _MusicpageState extends State<Musicpage> {
+  late AudioPlayer _audioPlayer = AudioPlayer();
+  List<dynamic> audioFiles = [];
+  int currentIndex = 0;
+
+  String? music;
+
   double he = 0;
   bool repeat = false;
   bool shuffle = false;
@@ -16,6 +26,28 @@ class _MusicpageState extends State<Musicpage> {
   bool favorite = false;
   bool play = true;
   bool arrow = false;
+
+  void _playAudio(String filePath) async {
+    try {
+      await _audioPlayer.setFilePath(filePath);
+      _audioPlayer.play();
+    } on PlayerException catch (e) {
+      print("Error loading file: $e");
+    }
+  }
+
+  Future<void> playNext() async {
+    setState(() {
+      currentIndex = (currentIndex + 1) % audioFiles.length;
+    });
+  }
+
+  Future<void> playPrevious() async {
+    setState(() {
+      currentIndex = (currentIndex - 1 + audioFiles.length) % audioFiles.length;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -255,7 +287,7 @@ class _MusicpageState extends State<Musicpage> {
                 // crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
-                      margin: EdgeInsets.only(left: 10),
+                      margin: EdgeInsets.only(left: 5),
                       child: IconButton(
                         onPressed: () {
                           setState(() {
@@ -274,17 +306,22 @@ class _MusicpageState extends State<Musicpage> {
                               ),
                       )),
                   Container(
-                    margin: EdgeInsets.only(left: 30),
-                    child: Icon(
-                      Icons.skip_previous,
-                      size: 50,
-                      color: Colors.white,
-                    ),
-                  ),
+                      margin: EdgeInsets.only(left: 20),
+                      child: IconButton(
+                        onPressed: () {
+                          playPrevious();
+                        },
+                        icon: Icon(
+                          Icons.skip_previous,
+                          size: 50,
+                          color: Colors.white,
+                        ),
+                      )),
                   Container(
                       margin: EdgeInsets.only(left: 10),
                       child: IconButton(
                           onPressed: () {
+                            // _playAudio();
                             setState(() {
                               play = !play;
                               _isrotation = !_isrotation;
@@ -292,7 +329,7 @@ class _MusicpageState extends State<Musicpage> {
                           },
                           icon: play
                               ? Icon(
-                                  Icons.play_circle,
+                                  Icons.play_circle_fill,
                                   size: 70,
                                   color: Colors.white,
                                 )
@@ -302,15 +339,21 @@ class _MusicpageState extends State<Musicpage> {
                                   size: 70,
                                 ))),
                   Container(
-                    margin: EdgeInsets.only(left: 10, right: 20),
-                    child: Icon(
-                      Icons.skip_next,
-                      size: 50,
-                      color: Colors.white,
-                    ),
-                  ),
+                      margin: EdgeInsets.only(left: 5, right: 10),
+                      child: IconButton(
+                        onPressed: () {
+                          setState(() {
+                            playNext();
+                          });
+                        },
+                        icon: Icon(
+                          Icons.skip_next,
+                          size: 50,
+                          color: Colors.white,
+                        ),
+                      )),
                   Container(
-                      margin: EdgeInsets.only(left: 10),
+                      margin: EdgeInsets.only(left: 5),
                       child: IconButton(
                         onPressed: () {
                           setState(() {

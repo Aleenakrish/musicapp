@@ -36,7 +36,6 @@ class _SongslistState extends State<Songslist>
   }
 
   void _requestPermissions() async {
-    // unnecessaryyyyyyyyyyyyyyy
     Map<Permission, PermissionStatus> statuses = await [
       Permission.storage,
       Permission.manageExternalStorage,
@@ -44,13 +43,11 @@ class _SongslistState extends State<Songslist>
 
     var storage = statuses[Permission.storage];
     var manageExternalStorage = statuses[Permission.manageExternalStorage];
-    // unnecessaryyyyyyyyyyyyyyy
 
     var status = await Permission.storage.request();
     if (status.isGranted || await Permission.manageExternalStorage.isGranted) {
       _loadAudioFiles();
     } else {
-      // Handle permission denial
       _loadAudioFiles();
       print('Permission denied');
     }
@@ -65,7 +62,6 @@ class _SongslistState extends State<Songslist>
     print("AUDIO FILES======================");
     print(directory);
 
-    // Assuming that music files are in the Music folder, you can change this path as per your needs.
     try {
       // final musicDirectory = Directory('${directory.path}');
       final musicDirectory = Directory('/storage/emulated/0/Music');
@@ -253,343 +249,292 @@ class _SongslistState extends State<Songslist>
             Expanded(
                 child: TabBarView(controller: _tabController, children: [
               Container(
-                  child: _audioFiles.isEmpty
-                      ? Center(child: Container())
-                      : ListView.builder(
-                          itemCount: _audioFiles.length,
-                          itemBuilder: (context, index) {
-                            Container();
-                            final audioFile = _audioFiles[index];
-                            return ListTile(
-                              onLongPress: () {
-                                showBottomSheet(
-                                  backgroundColor: Colors.transparent,
-                                  context: context,
-                                  builder: (context) {
-                                    return Container(
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.vertical(
-                                              top: Radius.circular(25)),
-                                          color: const Color.fromARGB(
-                                              255, 44, 43, 43),
-                                        ),
-                                        height: 440,
-                                        width: double.infinity,
-                                        child: Column(
-                                          children: [
-                                            Container(
-                                              // margin: EdgeInsets.only(left: 100),
-                                              alignment:
-                                                  AlignmentDirectional.topEnd,
-                                              child: IconButton(
-                                                  onPressed: () {
-                                                    Navigator.pushReplacement(
-                                                        context,
-                                                        MaterialPageRoute(
-                                                            builder: (context) =>
-                                                                Songslist()));
-                                                  },
-                                                  icon: Icon(
-                                                    Icons.cancel_outlined,
-                                                    color: Colors.grey,
-                                                  )),
-                                            ),
-                                            Container(
-                                              // padding: EdgeInsets.only(top: 5),
-                                              decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(25),
-                                                color: const Color.fromARGB(
-                                                    255, 44, 43, 43),
+                child: Container(
+                    child: _audioFiles.isEmpty
+                        ? Center(child: Container())
+                        : ListView.builder(
+                            itemCount: _audioFiles.length,
+                            itemBuilder: (context, index) {
+                              final audioFile = _audioFiles[index];
+                              return ListTile(
+                                onLongPress: () {
+                                  showBottomSheet(
+                                    backgroundColor: Colors.transparent,
+                                    context: context,
+                                    builder: (context) {
+                                      return Container(
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.vertical(
+                                                top: Radius.circular(25)),
+                                            color: const Color.fromARGB(
+                                                255, 44, 43, 43),
+                                          ),
+                                          height: 440,
+                                          width: double.infinity,
+                                          child: Column(
+                                            children: [
+                                              Container(
+                                                // margin: EdgeInsets.only(left: 100),
+                                                alignment:
+                                                    AlignmentDirectional.topEnd,
+                                                child: IconButton(
+                                                    onPressed: () {
+                                                      Navigator.pushReplacement(
+                                                          context,
+                                                          MaterialPageRoute(
+                                                              builder: (context) =>
+                                                                  Songslist()));
+                                                    },
+                                                    icon: Icon(
+                                                      Icons.cancel_outlined,
+                                                      color: Colors.grey,
+                                                    )),
                                               ),
-                                              // height: 400,
-                                              child: Text(
-                                                "Shap of You",
-                                                style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 18,
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                              ),
-                                            ),
-                                            Container(
-                                              child: Text(
-                                                "Ed Sheeran",
-                                                style: TextStyle(
+                                              Container(
+                                                // padding: EdgeInsets.only(top: 5),
+                                                decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(25),
                                                   color: const Color.fromARGB(
-                                                      255, 216, 215, 215),
-                                                  fontSize: 13,
+                                                      255, 44, 43, 43),
+                                                ),
+                                                // height: 400,
+                                                child: Text(
+                                                  "Shap of You",
+                                                  style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 18,
+                                                      fontWeight:
+                                                          FontWeight.bold),
                                                 ),
                                               ),
-                                            ),
-                                            SizedBox(
-                                              height: 10,
-                                            ),
-                                            Container(
-                                              height: 1,
-                                              width: 370,
-                                              color: Colors.grey,
-                                              // child: ,
-                                            ),
-                                            SizedBox(
-                                              height: 10,
-                                            ),
-                                            
-                                            Row(
-                                              children: [
-                                                Container(
-                                                  child: IconButton(
-                                                      onPressed: () {},
-                                                      icon: Icon(
-                                                        Icons
-                                                            .add_circle_outline_outlined,
-                                                        color: Colors.grey,
-                                                      )),
-                                                ),
-                                                Container(
-                                                  padding:
-                                                      EdgeInsets.only(left: 10),
-                                                  child: Text(
-                                                    "Add to playlist",
-                                                    style: TextStyle(
-                                                        fontSize: 16,
-                                                        color: Colors.white),
+                                              Container(
+                                                child: Text(
+                                                  "Ed Sheeran",
+                                                  style: TextStyle(
+                                                    color: const Color.fromARGB(
+                                                        255, 216, 215, 215),
+                                                    fontSize: 13,
                                                   ),
-                                                )
-                                              ],
-                                            ),
-                                            Row(
-                                              children: [
-                                                Container(
-                                                  child: IconButton(
-                                                      onPressed: () {},
-                                                      icon: Icon(
-                                                        Icons
-                                                            .highlight_off_rounded,
-                                                        color: Colors.grey,
-                                                      )),
                                                 ),
-                                                Container(
-                                                  padding:
-                                                      EdgeInsets.only(left: 10),
-                                                  child: Text(
-                                                    "Hide this song",
-                                                    style: TextStyle(
-                                                        fontSize: 16,
-                                                        color: Colors.white),
+                                              ),
+                                              SizedBox(
+                                                height: 10,
+                                              ),
+                                              Container(
+                                                height: 1,
+                                                width: 370,
+                                                color: Colors.grey,
+                                                // child: ,
+                                              ),
+                                              SizedBox(
+                                                height: 10,
+                                              ),
+                                              Row(
+                                                children: [
+                                                  Container(
+                                                    child: IconButton(
+                                                        onPressed: () {},
+                                                        icon: Icon(
+                                                          Icons
+                                                              .add_circle_outline_outlined,
+                                                          color: Colors.grey,
+                                                        )),
                                                   ),
-                                                )
-                                              ],
-                                            ),
-                                            Row(
-                                              children: [
-                                                Container(
-                                                  child: IconButton(
-                                                      onPressed: () {},
-                                                      icon: Icon(
-                                                        Icons.album_rounded,
-                                                        color: Colors.grey,
-                                                      )),
-                                                ),
-                                                Container(
-                                                  padding:
-                                                      EdgeInsets.only(left: 10),
-                                                  child: Text(
-                                                    "Go to album",
-                                                    style: TextStyle(
-                                                        fontSize: 16,
-                                                        color: Colors.white),
+                                                  Container(
+                                                    padding: EdgeInsets.only(
+                                                        left: 10),
+                                                    child: Text(
+                                                      "Add to playlist",
+                                                      style: TextStyle(
+                                                          fontSize: 16,
+                                                          color: Colors.white),
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                              Row(
+                                                children: [
+                                                  Container(
+                                                    child: IconButton(
+                                                        onPressed: () {},
+                                                        icon: Icon(
+                                                          Icons
+                                                              .highlight_off_rounded,
+                                                          color: Colors.grey,
+                                                        )),
                                                   ),
-                                                )
-                                              ],
-                                            ),
-                                            Row(
-                                              children: [
-                                                Container(
-                                                  child: IconButton(
-                                                      onPressed: () {},
-                                                      icon: Icon(
-                                                        Icons.person,
-                                                        color: Colors.grey,
-                                                      )),
-                                                ),
-                                                Container(
-                                                  padding:
-                                                      EdgeInsets.only(left: 10),
-                                                  child: Text(
-                                                    "Go to artist",
-                                                    style: TextStyle(
-                                                        fontSize: 16,
-                                                        color: Colors.white),
+                                                  Container(
+                                                    padding: EdgeInsets.only(
+                                                        left: 10),
+                                                    child: Text(
+                                                      "Hide this song",
+                                                      style: TextStyle(
+                                                          fontSize: 16,
+                                                          color: Colors.white),
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                              Row(
+                                                children: [
+                                                  Container(
+                                                    child: IconButton(
+                                                        onPressed: () {},
+                                                        icon: Icon(
+                                                          Icons.album_rounded,
+                                                          color: Colors.grey,
+                                                        )),
                                                   ),
-                                                )
-                                              ],
-                                            ),
-                                            Row(
-                                              children: [
-                                                Container(
-                                                  child: IconButton(
-                                                      onPressed: () {},
-                                                      icon: Icon(
-                                                        Icons.share_outlined,
-                                                        color: Colors.grey,
-                                                      )),
-                                                ),
-                                                Container(
-                                                  padding:
-                                                      EdgeInsets.only(left: 10),
-                                                  child: Text(
-                                                    "Share",
-                                                    style: TextStyle(
-                                                        fontSize: 16,
-                                                        color: Colors.white),
+                                                  Container(
+                                                    padding: EdgeInsets.only(
+                                                        left: 10),
+                                                    child: Text(
+                                                      "Go to album",
+                                                      style: TextStyle(
+                                                          fontSize: 16,
+                                                          color: Colors.white),
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                              Row(
+                                                children: [
+                                                  Container(
+                                                    child: IconButton(
+                                                        onPressed: () {},
+                                                        icon: Icon(
+                                                          Icons.person,
+                                                          color: Colors.grey,
+                                                        )),
                                                   ),
-                                                )
-                                              ],
-                                            ),
-                                            Row(
-                                              children: [
-                                                Container(
-                                                  child: IconButton(
-                                                      onPressed: () {},
-                                                      icon: Icon(
-                                                        Icons.diamond_outlined,
-                                                        color: Colors.grey,
-                                                      )),
-                                                ),
-                                                Container(
-                                                  // padding: EdgeInsets.only(left: 10),
-                                                  child: Row(
-                                                    children: [
-                                                      Container(
-                                                        child: TextButton(
-                                                          onPressed: () {
-                                                            Navigator.pushNamed(
-                                                                context,
-                                                                "addfreepage");
-                                                          },
-                                                          child: Text(
-                                                            "Listen to music ad-free",
-                                                            style: TextStyle(
-                                                                fontSize: 16,
-                                                                color: Colors
-                                                                    .white),
+                                                  Container(
+                                                    padding: EdgeInsets.only(
+                                                        left: 10),
+                                                    child: Text(
+                                                      "Go to artist",
+                                                      style: TextStyle(
+                                                          fontSize: 16,
+                                                          color: Colors.white),
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                              Row(
+                                                children: [
+                                                  Container(
+                                                    child: IconButton(
+                                                        onPressed: () {},
+                                                        icon: Icon(
+                                                          Icons.share_outlined,
+                                                          color: Colors.grey,
+                                                        )),
+                                                  ),
+                                                  Container(
+                                                    padding: EdgeInsets.only(
+                                                        left: 10),
+                                                    child: Text(
+                                                      "Share",
+                                                      style: TextStyle(
+                                                          fontSize: 16,
+                                                          color: Colors.white),
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                              Row(
+                                                children: [
+                                                  Container(
+                                                    child: IconButton(
+                                                        onPressed: () {},
+                                                        icon: Icon(
+                                                          Icons
+                                                              .diamond_outlined,
+                                                          color: Colors.grey,
+                                                        )),
+                                                  ),
+                                                  Container(
+                                                    // padding: EdgeInsets.only(left: 10),
+                                                    child: Row(
+                                                      children: [
+                                                        Container(
+                                                          child: TextButton(
+                                                            onPressed: () {
+                                                              Navigator.pushNamed(
+                                                                  context,
+                                                                  "addfreepage");
+                                                            },
+                                                            child: Text(
+                                                              "Listen to music ad-free",
+                                                              style: TextStyle(
+                                                                  fontSize: 16,
+                                                                  color: Colors
+                                                                      .white),
+                                                            ),
                                                           ),
-                                                        ),
-                                                      )
-                                                      // Text("Listen to music ad-free",style: TextStyle(fontSize: 16, color: Colors.white),),
-                                                    ],
-                                                  ),
-                                                )
-                                              ],
-                                            ),
-                                          ],
-                                        ));
-                                  },
-                                );
-                              },
-                              title: Text(
-                                audioFile.uri.pathSegments.last,
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 16),
-                              ),
-                              onTap: () {
-                                _playAudio(audioFile.path);
-                                Navigator.pushNamed(context, "musicapp");
-                              },
-                              trailing: IconButton(
-                                  onPressed: () {
-                                    _pauseAudio(audioFile.path);
-                                    // setState(() {
-                                    //   play = !play;
-                                    // });
-                                  },
-                                  icon:
-                                      // play
-                                      //     ? Icon(
-                                      //         Icons.play_arrow,
-                                      //         size: 35,
-                                      //         color: Colors.white,
-                                      //       )
-                                      //     :
-                                      Icon(
-                                    Icons.more_vert_rounded,
-                                    color: Colors.white,
-                                    size: 20,
-                                  )),
-
-                              // Container(
-                              //   child: Container(
-                              //       // height: 50,
-                              //       color: Colors.transparent,
-                              //       child: Row(
-                              //         children: [
-                              //           Container(
-                              //             margin: EdgeInsets.only(left: 10),
-                              //             height: 70,
-                              //             width: 70,
-                              //             decoration: BoxDecoration(
-                              //                 borderRadius:
-                              //                     BorderRadius.circular(15),
-                              //                 color: Colors.transparent),
-                              //             child: ClipRRect(
-                              //               borderRadius:
-                              //                   BorderRadius.circular(15),
-                              //               child: Image.asset(
-                              //                 "./images/shapofyou.jpg",
-                              //                 fit: BoxFit.cover,
-                              //               ),
-                              //             ),
-                              //           ),
-                              //           Container(
-                              //             child: Column(
-                              //               children: [
-                              //                 Container(
-                              //                   padding: EdgeInsets.only(
-                              //                       top: 4, left: 15),
-                              //                   child: Text(
-                              //                     "Shape of You",
-                              //                     style: TextStyle(
-                              //                         color: Colors.white,
-                              //                         fontSize: 16),
-                              //                   ),
-                              //                 ),
-                              //                 Container(
-                              //                   child: Text("Ed Sheeran",
-                              //                       style: TextStyle(
-                              //                           fontSize: 15,
-                              //                           color: const Color
-                              //                               .fromARGB(255, 156,
-                              //                               156, 156))),
-                              //                 )
-                              //               ],
-                              //             ),
-                              //           ),
-                              //           Spacer(),
-                              //           Container(
-                              //             child: IconButton(
-                              //                 onPressed: () {
-                              //                   setState(() {
-                              //                     play = !play;
-                              //                   });
-                              //                 },
-                              //                 icon: play
-                              //                     ? Icon(
-                              //                         Icons.pause,
-                              //                         size: 35,
-                              //                         color: Colors.white,
-                              //                       )
-                              //                     : Icon(
-                              //                         Icons.play_arrow,
-                              //                         color: Colors.white,
-                              //                         size: 35,
-                              //                       )),
-                              //           )
-                              //         ],
-                              //       )),
-                              // ),
-                            );
-                          })),
+                                                        )
+                                                        // Text("Listen to music ad-free",style: TextStyle(fontSize: 16, color: Colors.white),),
+                                                      ],
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                            ],
+                                          ));
+                                    },
+                                  );
+                                },
+                                title: Container(
+                                  child: Row(
+                                    children: [
+                                      Container(
+                                        // margin: EdgeInsets.only(left: 5),
+                                        height: 70,
+                                        width: 70,
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(15),
+                                            color: Colors.transparent),
+                                        child: ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(15),
+                                          child: Image.asset(
+                                            "./images/log.jpeg",
+                                            fit: BoxFit.cover,
+                                          ),
+                                        ),
+                                      ),
+                                      Container(
+                                        padding: EdgeInsets.only(left: 10),
+                                        width: 200,
+                                        child: Text(
+                                          overflow: TextOverflow.ellipsis,
+                                          audioFile.uri.pathSegments.last,
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 15),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                onTap: () {
+                                  _playAudio(audioFile.path);
+                                  Navigator.pushNamed(context, "musicapp");
+                                },
+                                trailing: IconButton(
+                                    onPressed: () {
+                                      _pauseAudio(audioFile.path);
+                                    },
+                                    icon: Icon(
+                                      Icons.more_vert_rounded,
+                                      color: Colors.white,
+                                      size: 20,
+                                    )),
+                              );
+                            })),
+               
+              ),
               Container(
                 child: Center(
                   child: Text("no songs"),
