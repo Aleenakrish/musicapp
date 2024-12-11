@@ -16,6 +16,7 @@ class Songslist extends StatefulWidget {
 
 class _SongslistState extends State<Songslist>
     with SingleTickerProviderStateMixin {
+  bool _ismuted = false;
   bool play = false;
   late TabController _tabController;
   final AudioPlayer _audioPlayer = AudioPlayer();
@@ -29,10 +30,36 @@ class _SongslistState extends State<Songslist>
     _requestPermissions();
   }
 
+  // void _playMusic() async {
+  //   int result = await _audioFiles.play("storage/emulated/0/Music");
+  //   if (result == 1) {
+  //     // Success
+  //     print('Music started');
+  //   }
+  // }
+
+  // void _stopMusic() async {
+  //   int result = ();
+  //   if (result == 1) {
+  //     // Success
+  //     print('Music stopped');
+  //   }
+  // }
+
+  // Function to mute or unmute the music
+  void _toggleMute() {
+    setState(() {
+      _ismuted = !_ismuted;
+      _audioPlayer.setVolume(_ismuted ? 0.0 : 3.0); // Mute or unmute
+    });
+  }
+
   void dispose() {
     // Dispose of the TabController to avoid memory leaks
-    _tabController.dispose();
-    super.dispose();
+    setState(() {
+      _tabController.dispose();
+      super.dispose();
+    });
   }
 
   void _requestPermissions() async {
@@ -504,27 +531,70 @@ class _SongslistState extends State<Songslist>
                                           ),
                                         ),
                                       ),
+                                      SizedBox(
+                                        width: 10,
+                                      ),
                                       Container(
-                                        padding: EdgeInsets.only(left: 10),
                                         width: 200,
-                                        child: Text(
-                                          overflow: TextOverflow.ellipsis,
-                                          audioFile.uri.pathSegments.last,
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 15),
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              audioFile.path
+                                                  .split("/")
+                                                  .last
+                                                  .split("-")
+                                                  .first,
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 15),
+                                            ),
+                                            Text(
+                                              audioFile.path
+                                                  .split("/")
+                                                  .last
+                                                  .split("-")
+                                                  .last
+                                                  .substring(
+                                                      0,
+                                                      audioFile.path
+                                                              .split("/")
+                                                              .last
+                                                              .split("-")
+                                                              .last
+                                                              .length -
+                                                          5),
+                                              style: TextStyle(
+                                                  color: Colors.grey,
+                                                  fontSize: 12),
+                                            )
+                                          ],
                                         ),
-                                      )
+                                      ),
                                     ],
                                   ),
                                 ),
                                 onTap: () {
                                   _playAudio(audioFile.path);
-                                  Navigator.pushNamed(context, "musicapp");
+                                  // Navigator.pushNamed(context, "musicapp",
+                                  //     arguments: audioFile.path);
+                                  Navigator.pushNamed(context, "musicapp",
+                                      arguments: audioFile.path
+                                          .split("/")
+                                          .last
+                                          .split("-")
+                                          .first
+                                          .toString());
                                 },
                                 trailing: IconButton(
                                     onPressed: () {
-                                      _pauseAudio(audioFile.path);
+                                      setState(() {
+                                        _toggleMute();
+                                        _pauseAudio(audioFile.path);
+                                      });
                                     },
                                     icon: Icon(
                                       Icons.more_vert_rounded,
@@ -533,18 +603,130 @@ class _SongslistState extends State<Songslist>
                                     )),
                               );
                             })),
-               
               ),
               Container(
-                child: Center(
-                  child: Text("no songs"),
-                ),
-              ),
+                  child: ListView.builder(
+                      padding: EdgeInsets.all(10),
+                      itemCount: _audioFiles.length,
+                      itemBuilder: (context, index) {
+                        final file = _audioFiles[index];
+
+                        return Container(
+                            child: Row(
+                          children: [
+                            Container(
+                              margin: EdgeInsets.all(5),
+                              width: 70,
+                              height: 70,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(100),
+                                color: Colors.grey,
+                              ),
+                              child: Icon(
+                                Icons.person,
+                                size: 35,
+                                color: Colors.white,
+                              ),
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Container(
+                              width: 220,
+                              child: Text(
+                                file.path
+                                    .split("/")
+                                    .last
+                                    .split("-")
+                                    .last
+                                    .substring(
+                                        0,
+                                        file.path
+                                                .split("/")
+                                                .last
+                                                .split("-")
+                                                .last
+                                                .length -
+                                            4),
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 14),
+                              ),
+                            )
+                          ],
+                        ));
+                      })),
               Container(
-                child: Center(
-                  child: Text("no songs"),
-                ),
-              ),
+                  child: ListView.builder(
+                      padding: EdgeInsets.only(top: 10),
+                      itemCount: _audioFiles.length,
+                      itemBuilder: (context, index) {
+                        final file = _audioFiles[index];
+                        return GestureDetector(
+                          onTap: () async {
+                            await _audioPlayer.setFilePath(file.path);
+                            _audioPlayer.play();
+                          },
+                          child: Container(
+                            margin: EdgeInsets.only(left: 10, top: 10),
+                            child: Row(
+                              children: [
+                                Container(
+                                    height: 60,
+                                    width: 60,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(15),
+                                        color: Colors.grey),
+                                    child: Icon(
+                                      Icons.music_note,
+                                      color: Colors.white,
+                                      size: 25,
+                                    )),
+                                Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Container(
+                                      padding: EdgeInsets.only(left: 10),
+                                      child: Text(
+                                        file.path
+                                            .split("/")
+                                            .last
+                                            .split("-")
+                                            .first,
+                                        style: TextStyle(
+                                            color: Colors.white, fontSize: 15),
+                                      ),
+                                    ),
+                                    Container(
+                                      width: 290,
+                                      padding: EdgeInsets.only(left: 10),
+                                      child: Text(
+                                        file.path
+                                            .split("/")
+                                            .last
+                                            .split("-")
+                                            .last
+                                            .substring(
+                                                0,
+                                                file.path
+                                                        .split("/")
+                                                        .last
+                                                        .split("-")
+                                                        .last
+                                                        .length -
+                                                    4),
+                                        style: TextStyle(
+                                            color: Colors.white, fontSize: 12),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      })),
               Container(
                 child: Center(
                   child: Text("no songs"),

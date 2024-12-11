@@ -12,47 +12,111 @@ class Musicpage extends StatefulWidget {
   State<Musicpage> createState() => _MusicpageState();
 }
 
-class _MusicpageState extends State<Musicpage> {
-  late AudioPlayer _audioPlayer = AudioPlayer();
-  List<dynamic> audioFiles = [];
+class _MusicpageState extends State<Musicpage>
+    with SingleTickerProviderStateMixin {
+  final AudioPlayer audioPlayer = AudioPlayer();
+  List<File> musicFiles = [];
+
   int currentIndex = 0;
 
-  String? music;
+  bool _ismuted = false;
 
+  String? _music;
+  late AnimationController _controller;
+
+  Duration _currentPosition = Duration.zero;
+  Duration _totalDuration = Duration.zero;
   double he = 0;
   bool repeat = false;
   bool shuffle = false;
   bool _isrotation = false;
   bool favorite = false;
-  bool play = true;
+  bool pause = false;
   bool arrow = false;
 
-  void _playAudio(String filePath) async {
+  void dispose() {
+    audioPlayer.dispose();
+    super.dispose();
+  }
+
+  void _toggleMute() {
+    setState(() {
+      _ismuted = !_ismuted;
+      audioPlayer.setVolume(_ismuted ? 0.0 : 1.0); // Mute or unmute
+    });
+  }
+
+  Future<void> _loadAudioFiles() async {
+    final directory = await getExternalStorageDirectory();
+    if (directory == null) {
+      print("Failed to get external directory");
+      return;
+    }
+    print("AUDIO FILES======================");
+    print(directory);
+
     try {
-      await _audioPlayer.setFilePath(filePath);
-      _audioPlayer.play();
-    } on PlayerException catch (e) {
-      print("Error loading file: $e");
+      // final musicDirectory = Directory('${directory.path}');
+      final musicDirectory = Directory('/storage/emulated/0/Music');
+      if (await musicDirectory.exists()) {
+        final audioFiles = musicDirectory
+            .listSync()
+            .where((file) =>
+                file is File &&
+                (file.path.endsWith('.mp3') || file.path.endsWith('.m4a')))
+            .map((file) => file as File)
+            .toList();
+
+        setState(() {
+          musicFiles = audioFiles;
+        });
+      }
+      print("AUDIO FILES======================");
+      print(musicFiles);
+    } catch (e) {
+      print("EXCEPTION");
+      print(e);
     }
   }
 
-  Future<void> playNext() async {
-    setState(() {
-      currentIndex = (currentIndex + 1) % audioFiles.length;
-    });
+  Future<void> playMusic(String filePath) async {
+    try {
+      await audioPlayer.setFilePath(filePath);
+      await audioPlayer.play();
+    } catch (e) {
+      print("Error Playing audio:$e");
+    }
   }
 
-  Future<void> playPrevious() async {
-    setState(() {
-      currentIndex = (currentIndex - 1 + audioFiles.length) % audioFiles.length;
-    });
+  Future<void> pausmusic(String filePath) async {
+    try {
+      await audioPlayer.setFilePath(filePath);
+      await audioPlayer.play();
+    } catch (e) {
+      print("Error Playing audio:$e");
+    }
   }
+
+  // Future<void> playNext() async {
+  //   setState(() {
+  //     currentIndex = (currentIndex + 1) % musicFiles.length;
+  //   });
+  // }
+
+  // Future<void> playPrevious() async {
+  //   setState(() {
+  //     currentIndex = (currentIndex - 1 + musicFiles.length) % musicFiles.length;
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
+    String name = ModalRoute.of(context)?.settings.arguments as String;
     return Scaffold(
       // backgroundColor:
       body: Container(
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
           decoration: BoxDecoration(
               gradient: LinearGradient(
                   colors: [Colors.black, const Color.fromARGB(255, 87, 86, 86)],
@@ -84,26 +148,20 @@ class _MusicpageState extends State<Musicpage> {
                           children: [
                             Container(
                               margin: EdgeInsets.only(left: 90, top: 10),
-                              child: Text(
-                                "NOW PLAYING",
-                                style: TextStyle(
-                                    fontSize: 12,
-                                    color: const Color.fromARGB(
-                                        255, 209, 208, 208)),
+                              child: Center(
+                                child: Text(
+                                  "NOW PLAYING",
+                                  style: TextStyle(
+                                      fontSize: 12,
+                                      color: const Color.fromARGB(
+                                          255, 209, 208, 208)),
+                                ),
                               ),
                             ),
-                            Container(
-                              margin: EdgeInsets.only(left: 90, top: 5),
-                              child: Text(
-                                "Shape of You",
-                                style: TextStyle(
-                                    fontSize: 16, color: Colors.white),
-                              ),
-                            )
                           ],
                         ),
                         Container(
-                            margin: EdgeInsets.only(left: 70),
+                            margin: EdgeInsets.only(left: 80),
                             child: IconButton(
                               onPressed: () {},
                               icon: Icon(
@@ -148,23 +206,6 @@ class _MusicpageState extends State<Musicpage> {
                                     // end: Alignment.bottomRight
                                   )),
                               alignment: Alignment.center,
-                              // child: Container(
-                              //     height: 210,
-                              //     width: 210,
-                              //     decoration: BoxDecoration(
-                              //         borderRadius: BorderRadius.circular(150),
-                              //         color: Colors.white,
-                              //         boxShadow: [
-                              //           BoxShadow(
-                              //               blurRadius: 1, color: Colors.white)
-                              //         ]),
-                              //     child: ClipRRect(
-                              //       borderRadius: BorderRadius.circular(150),
-                              //       child: Image.asset(
-                              //         "./images/log.jpeg",
-                              //         fit: BoxFit.cover,
-                              //       ),
-                              //     )),
                             ),
                           )),
                       Positioned(
@@ -190,26 +231,18 @@ class _MusicpageState extends State<Musicpage> {
                     ],
                   ),
                   SizedBox(
-                    height: 10,
+                    height: 20,
                   ),
                   Container(
-                    child: Text(
-                      "Shape of You",
-                      style: TextStyle(
-                          fontSize: 18,
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 7,
-                  ),
-                  Container(
-                    child: Text(
-                      "Ed Sheeran",
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: const Color.fromARGB(255, 139, 139, 139),
+                    // padding: EdgeInsets.only(left: 20),
+                    width: 200,
+                    child: Center(
+                      child: Text(
+                        name,
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold),
                       ),
                     ),
                   ),
@@ -217,13 +250,19 @@ class _MusicpageState extends State<Musicpage> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Container(
-                          margin: EdgeInsets.only(left: 20, top: 50),
-                          child: Icon(
-                            Icons.share_outlined,
-                            color: const Color.fromARGB(255, 235, 233, 233),
-                            size: 30,
-                          ),
-                        ),
+                            margin: EdgeInsets.only(left: 20, top: 50),
+                            child: IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  _toggleMute();
+                                });
+                              },
+                              icon: Icon(
+                                Icons.mic_off_outlined,
+                                color: const Color.fromARGB(255, 235, 233, 233),
+                                size: 30,
+                              ),
+                            )),
                         Container(
                             margin: EdgeInsets.only(top: 50, right: 20),
                             child: IconButton(
@@ -309,7 +348,7 @@ class _MusicpageState extends State<Musicpage> {
                       margin: EdgeInsets.only(left: 20),
                       child: IconButton(
                         onPressed: () {
-                          playPrevious();
+                          // playPrevious();
                         },
                         icon: Icon(
                           Icons.skip_previous,
@@ -321,20 +360,21 @@ class _MusicpageState extends State<Musicpage> {
                       margin: EdgeInsets.only(left: 10),
                       child: IconButton(
                           onPressed: () {
+                            _toggleMute();
                             // _playAudio();
                             setState(() {
-                              play = !play;
+                              pause = !pause;
                               _isrotation = !_isrotation;
                             });
                           },
-                          icon: play
+                          icon: pause
                               ? Icon(
-                                  Icons.play_circle_fill,
+                                  Icons.pause,
                                   size: 70,
                                   color: Colors.white,
                                 )
                               : Icon(
-                                  Icons.pause,
+                                  Icons.play_circle,
                                   color: Colors.white,
                                   size: 70,
                                 ))),
@@ -343,7 +383,7 @@ class _MusicpageState extends State<Musicpage> {
                       child: IconButton(
                         onPressed: () {
                           setState(() {
-                            playNext();
+                            // playNext();
                           });
                         },
                         icon: Icon(
