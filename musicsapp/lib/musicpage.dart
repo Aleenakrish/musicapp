@@ -15,6 +15,7 @@ class Musicpage extends StatefulWidget {
 class _MusicpageState extends State<Musicpage>
     with SingleTickerProviderStateMixin {
   final AudioPlayer audioPlayer = AudioPlayer();
+  final AudioPlayer audiofiles= AudioPlayer();
   List<File> musicFiles = [];
 
   int currentIndex = 0;
@@ -46,45 +47,15 @@ class _MusicpageState extends State<Musicpage>
     });
   }
 
-  Future<void> _loadAudioFiles() async {
-    final directory = await getExternalStorageDirectory();
-    if (directory == null) {
-      print("Failed to get external directory");
-      return;
-    }
-    print("AUDIO FILES======================");
-    print(directory);
-
-    try {
-      // final musicDirectory = Directory('${directory.path}');
-      final musicDirectory = Directory('/storage/emulated/0/Music');
-      if (await musicDirectory.exists()) {
-        final audioFiles = musicDirectory
-            .listSync()
-            .where((file) =>
-                file is File &&
-                (file.path.endsWith('.mp3') || file.path.endsWith('.m4a')))
-            .map((file) => file as File)
-            .toList();
-
-        setState(() {
-          musicFiles = audioFiles;
-        });
-      }
-      print("AUDIO FILES======================");
-      print(musicFiles);
-    } catch (e) {
-      print("EXCEPTION");
-      print(e);
-    }
-  }
-
+  
+final AudioPlayer playmusic = AudioPlayer();
   Future<void> playMusic(String filePath) async {
     try {
       await audioPlayer.setFilePath(filePath);
       await audioPlayer.play();
     } catch (e) {
       print("Error Playing audio:$e");
+     
     }
   }
 
@@ -223,7 +194,7 @@ class _MusicpageState extends State<Musicpage>
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(150),
                               child: Image.asset(
-                                "./images/shapofyou.jpg",
+                                "./images/log.jpeg",
                                 fit: BoxFit.cover,
                               ),
                             )),
@@ -322,8 +293,7 @@ class _MusicpageState extends State<Musicpage>
                 height: 35,
               ),
               Row(
-                // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                // crossAxisAlignment: CrossAxisAlignment.start,
+                
                 children: [
                   Container(
                       margin: EdgeInsets.only(left: 5),
@@ -360,9 +330,8 @@ class _MusicpageState extends State<Musicpage>
                       margin: EdgeInsets.only(left: 10),
                       child: IconButton(
                           onPressed: () {
-                            _toggleMute();
-                            // _playAudio();
                             setState(() {
+                              playmusic.play;
                               pause = !pause;
                               _isrotation = !_isrotation;
                             });

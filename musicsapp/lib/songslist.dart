@@ -119,6 +119,7 @@ class _SongslistState extends State<Songslist>
       _audioPlayer.play();
     } on PlayerException catch (e) {
       print("Error loading file: $e");
+      
     }
   }
 
@@ -128,6 +129,7 @@ class _SongslistState extends State<Songslist>
       _audioPlayer.stop();
     } on PlayerException catch (e) {
       print("Error loading file: $e");
+    
     }
   }
 
@@ -317,34 +319,34 @@ class _SongslistState extends State<Songslist>
                                                       color: Colors.grey,
                                                     )),
                                               ),
-                                              Container(
-                                                // padding: EdgeInsets.only(top: 5),
-                                                decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(25),
-                                                  color: const Color.fromARGB(
-                                                      255, 44, 43, 43),
-                                                ),
-                                                // height: 400,
-                                                child: Text(
-                                                  "Shap of You",
-                                                  style: TextStyle(
-                                                      color: Colors.white,
-                                                      fontSize: 18,
-                                                      fontWeight:
-                                                          FontWeight.bold),
-                                                ),
-                                              ),
-                                              Container(
-                                                child: Text(
-                                                  "Ed Sheeran",
-                                                  style: TextStyle(
-                                                    color: const Color.fromARGB(
-                                                        255, 216, 215, 215),
-                                                    fontSize: 13,
-                                                  ),
-                                                ),
-                                              ),
+                                              // Container(
+                                              //   // padding: EdgeInsets.only(top: 5),
+                                              //   decoration: BoxDecoration(
+                                              //     borderRadius:
+                                              //         BorderRadius.circular(25),
+                                              //     color: const Color.fromARGB(
+                                              //         255, 44, 43, 43),
+                                              //   ),
+                                              //   // height: 400,
+                                              //   child: Text(
+                                              //     "Shap of You",
+                                              //     style: TextStyle(
+                                              //         color: Colors.white,
+                                              //         fontSize: 18,
+                                              //         fontWeight:
+                                              //             FontWeight.bold),
+                                              //   ),
+                                              // ),
+                                              // Container(
+                                              //   child: Text(
+                                              //     "Ed Sheeran",
+                                              //     style: TextStyle(
+                                              //       color: const Color.fromARGB(
+                                              //           255, 216, 215, 215),
+                                              //       fontSize: 13,
+                                              //     ),
+                                              //   ),
+                                              // ),
                                               SizedBox(
                                                 height: 10,
                                               ),
