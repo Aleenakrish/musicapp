@@ -29,11 +29,11 @@ class _AddfreepageState extends State<Addfreepage> {
             ),
             SizedBox(height: 60,),
             Container(
-              height: 40,
+              height: 50,
               width: 300,
               margin: EdgeInsets.only(left: 30,right: 30),
               decoration: BoxDecoration(borderRadius: BorderRadius.circular(20),color: Colors.white),
-              child: Center(child: Text("Get Premium Indiividaula",style: TextStyle(fontSize: 18,color: Colors.black))),
+              child: Center(child: Text("Get Premium Individaula",style: TextStyle(fontSize: 18,color: Colors.black))),
             )
           ],
         ),
