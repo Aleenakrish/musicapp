@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 // import 'package:hive/hive.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:musicapp/songslist.dart';
-// import 'package:musicapp/showBottomSheet.dart';
+
 
 class Musicpage extends StatefulWidget {
   const Musicpage({super.key});
@@ -24,7 +24,7 @@ class _ListenmusicState extends State<Musicpage>
 // ======================================================
  double he = 0;
   String? _music;
-  int currentIndex = 0;
+  int currentsongIndex = 0;
   late AnimationController _controller;
   bool icon = false;
   bool favorite = false;
@@ -77,19 +77,33 @@ class _ListenmusicState extends State<Musicpage>
     }
   }
 
-  Future<void> playNext() async {
+  void playNextSong() {
     setState(() {
-      currentIndex = (currentIndex + 1) % musicFiles.length;
+      currentsongIndex  = (currentsongIndex  + 1) % musicFiles.length;
     });
-    playMusic(musicFiles[currentIndex].path);
   }
 
-  Future<void> playPrevious() async {
+  // Play previous song
+  void playPreviousSong() {
     setState(() {
-      currentIndex = (currentIndex - 1 + musicFiles.length) % musicFiles.length;
+      currentsongIndex =
+          (currentsongIndex - 1 + musicFiles.length) % musicFiles.length;
     });
-    playMusic(musicFiles[currentIndex].path);
   }
+
+  // Future<void> playNext() async {
+  //   setState(() {
+  //     currentIndex = (currentIndex + 1) % musicFiles.length;
+  //   });
+  //   playMusic(musicFiles[currentIndex].path);
+  // }
+
+  // Future<void> playPrevious() async {
+  //   setState(() {
+  //     currentIndex = (currentIndex - 1 + musicFiles.length) % musicFiles.length;
+  //   });
+  //   playMusic(musicFiles[currentIndex].path);
+  // }
 
   String? _formatDuration(Duration duration) {
     final minutes = duration.inMinutes.remainder(60).toString().padLeft(2, "0");
@@ -372,7 +386,12 @@ class _ListenmusicState extends State<Musicpage>
                   Container(
                     padding: EdgeInsets.only(left: 10),
                     child: IconButton(
-                      onPressed: playPrevious,
+                      onPressed:() {
+                        setState(() {
+                           playPreviousSong;
+                        });
+                      },
+                      
                       icon: Icon(
                         Icons.skip_previous,
                         size: 50,
@@ -409,7 +428,7 @@ class _ListenmusicState extends State<Musicpage>
                     width: 5,
                   ),
                   IconButton(
-                    onPressed: playNext,
+                    onPressed: playNextSong,
                     icon: Icon(
                       Icons.skip_next,
                       size: 50,

@@ -196,11 +196,13 @@ class _SongslistState extends State<Songslist>
                     Tab(
                       text: "All Songs",
                     ),
-                    Tab(
-                      text: "Artist",
-                    ),
+                    
                     Tab(
                       text: "Albums",
+                    ),
+
+                    Tab(
+                      text: "Artist",
                     ),
                     Tab(
                       text: "Favourite",
@@ -483,7 +485,7 @@ class _SongslistState extends State<Songslist>
                                           arguments: file.path);
                                     },
                                     title: Container(
-                                        margin: EdgeInsets.only(top: 5),
+                                        // margin: EdgeInsets.only(top: 5),
                                         width:
                                             MediaQuery.of(context).size.width,
                                         height: 70,
@@ -533,7 +535,7 @@ class _SongslistState extends State<Songslist>
                                                   ),
                                                 ),
                                                 Container(
-                                                  width: 200,
+                                                  width: 250,
                                                   child: Text(
                                                     file.path
                                                         .split("/")
@@ -583,7 +585,92 @@ class _SongslistState extends State<Songslist>
                                   );
                                 }),
                           )),
+                
                 Container(
+                    child: ListView.builder(
+                        padding: EdgeInsets.only(top: 16),
+                        itemCount: _audiofiles.length,
+                        itemBuilder: (context, index) {
+                          final file = _audiofiles[index];
+                          return GestureDetector(
+                            onTap: ()async {
+                              await audioPlayer.setFilePath(file.path);
+                              audioPlayer.play();
+                            },
+                            child: Container(
+                              margin: EdgeInsets.only(left: 16, top: 10),
+                              child: Row(
+                                children: [
+                                  Container(
+                                      height: 60,
+                                      width: 60,
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(15),
+                                          gradient: LinearGradient(colors: [
+                                            const Color.fromARGB(255, 37, 37, 37),
+                          const Color.fromARGB(255, 112, 112, 112)
+                                          ])),
+                                      child: Icon(
+                                        Icons.music_note,
+                                        color: Colors.white,
+                                        size: 25,
+                                      )),
+                                  Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Container(
+                                        padding: EdgeInsets.only(left: 16),
+                                        child: Container(
+                                          width: 250,
+                                          child: Text(
+                                            file.path
+                                                .split("/")
+                                                .last
+                                                .split("-")
+                                                .first,
+                                            style: TextStyle(
+                                                overflow: TextOverflow.ellipsis,
+                                                color: Colors.white,
+                                                fontSize: 15),
+                                          ),
+                                        ),
+                                      ),
+                                      Container(
+                                        width: 270,
+                                        padding: EdgeInsets.only(left: 16,),
+                                        child: Text(
+                                          file.path
+                                              .split("/")
+                                              .last
+                                              .split("-")
+                                              .last
+                                              .substring(
+                                                  0,
+                                                  file.path
+                                                          .split("/")
+                                                          .last
+                                                          .split("-")
+                                                          .last
+                                                          .length -
+                                                      4),
+                                          style: TextStyle(overflow: TextOverflow.ellipsis,
+                                              color: Colors.white,
+                                              fontSize: 12),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
+                        })),
+
+                        Container(
                     child: ListView.builder(
                         padding: EdgeInsets.all(10),
                         itemCount: _audiofiles.length,
@@ -599,7 +686,7 @@ class _SongslistState extends State<Songslist>
                                 height: 70,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(100),
-                                  gradient: SweepGradient(colors: [
+                                  gradient: LinearGradient(colors: [
                                     const Color.fromARGB(255, 37, 37, 37),
                           const Color.fromARGB(255, 112, 112, 112)
                                   ])
@@ -637,89 +724,6 @@ class _SongslistState extends State<Songslist>
                             ],
                           ));
                         })),
-                Container(
-                    child: ListView.builder(
-                        padding: EdgeInsets.only(top: 10),
-                        itemCount: _audiofiles.length,
-                        itemBuilder: (context, index) {
-                          final file = _audiofiles[index];
-                          return GestureDetector(
-                            onTap: ()async {
-                              await audioPlayer.setFilePath(file.path);
-                              audioPlayer.play();
-                            },
-                            child: Container(
-                              margin: EdgeInsets.only(left: 16, top: 10),
-                              child: Row(
-                                children: [
-                                  Container(
-                                      height: 60,
-                                      width: 60,
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(15),
-                                          gradient: SweepGradient(colors: [
-                                            const Color.fromARGB(255, 37, 37, 37),
-                          const Color.fromARGB(255, 112, 112, 112)
-                                          ])),
-                                      child: Icon(
-                                        Icons.music_note,
-                                        color: Colors.white,
-                                        size: 25,
-                                      )),
-                                  Column(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Container(
-                                        padding: EdgeInsets.only(left: 16),
-                                        child: Container(
-                                          width: 250,
-                                          child: Text(
-                                            file.path
-                                                .split("/")
-                                                .last
-                                                .split("-")
-                                                .first,
-                                            style: TextStyle(
-                                                overflow: TextOverflow.ellipsis,
-                                                color: Colors.white,
-                                                fontSize: 15),
-                                          ),
-                                        ),
-                                      ),
-                                      Container(
-                                        width: 270,
-                                        padding: EdgeInsets.only(left: 16),
-                                        child: Text(
-                                          file.path
-                                              .split("/")
-                                              .last
-                                              .split("-")
-                                              .last
-                                              .substring(
-                                                  0,
-                                                  file.path
-                                                          .split("/")
-                                                          .last
-                                                          .split("-")
-                                                          .last
-                                                          .length -
-                                                      4),
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 12),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                          );
-                        }))
 
                
               ]),
