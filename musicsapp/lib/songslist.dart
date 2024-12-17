@@ -42,6 +42,7 @@ class _SongslistState extends State<Songslist>
     data();
     // requestPermission().then((_) => loadMusicFiles());
     favortes();
+    playNext();
   }
 
   Future<void> loadMusicFiles() async {
@@ -93,6 +94,10 @@ class _SongslistState extends State<Songslist>
       favorit = _favorite.get("key");
     }
     print("===================================");
+  }
+
+  void playNext() {
+    Provider.of<providerr>(context, listen: false).automaticNext();
   }
 
   @override
@@ -223,9 +228,9 @@ class _SongslistState extends State<Songslist>
                             Tab(
                               text: "Albums",
                             ),
-                            Tab(
-                              text: "Artist",
-                            ),
+                            // Tab(
+                            //   text: "Artist",
+                            // ),
                             Tab(
                               text: "Favourite",
                             )
@@ -289,7 +294,6 @@ class _SongslistState extends State<Songslist>
                                                                       .grey,
                                                                 )),
                                                           ),
-                                                         
                                                           SizedBox(
                                                             height: 10,
                                                           ),
@@ -511,9 +515,13 @@ class _SongslistState extends State<Songslist>
                                               audioPlayer
                                                   .setFilePath(file.path);
 
+                                              Music.currentsongIndex = index;
+
                                               Navigator.pushNamed(
                                                   context, "musicapp",
                                                   arguments: file.path);
+                                              Music.name = file.path;
+                                              Music.isPlay = true;
                                             },
                                             title: Container(
                                                 // margin: EdgeInsets.only(top: 5),
@@ -617,6 +625,7 @@ class _SongslistState extends State<Songslist>
                                     onTap: () async {
                                       await audioPlayer.setFilePath(file.path);
                                       audioPlayer.play();
+                                      Music.isPlay = true;
                                     },
                                     child: Container(
                                       margin:
@@ -701,63 +710,63 @@ class _SongslistState extends State<Songslist>
                                   );
                                 })),
                         //////////////////////////////////////////////////////////////////////artist
-                        Container(
-                            child: ListView.builder(
-                                padding: EdgeInsets.all(10),
-                                itemCount: Music.audiofiles.length,
-                                itemBuilder: (context, index) {
-                                  final file = Music.audiofiles[index];
+                        // Container(
+                        //     child: ListView.builder(
+                        //         padding: EdgeInsets.all(10),
+                        //         itemCount: Music.audiofiles.length,
+                        //         itemBuilder: (context, index) {
+                        //           final file = Music.audiofiles[index];
 
-                                  return Container(
-                                      child: Row(
-                                    children: [
-                                      Container(
-                                        margin: EdgeInsets.all(5),
-                                        width: 70,
-                                        height: 70,
-                                        decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(100),
-                                            gradient: LinearGradient(colors: [
-                                              const Color.fromARGB(
-                                                  255, 37, 37, 37),
-                                              const Color.fromARGB(
-                                                  255, 112, 112, 112)
-                                            ])),
-                                        child: Icon(
-                                          Icons.person,
-                                          size: 35,
-                                          color: Colors.grey,
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        width: 10,
-                                      ),
-                                      Container(
-                                        width: 250,
-                                        child: Text(
-                                          file.path
-                                              .split("/")
-                                              .last
-                                              .split("-")
-                                              .last
-                                              .substring(
-                                                  0,
-                                                  file.path
-                                                          .split("/")
-                                                          .last
-                                                          .split("-")
-                                                          .last
-                                                          .length -
-                                                      4),
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 13),
-                                        ),
-                                      )
-                                    ],
-                                  ));
-                                })),
+                        //           return Container(
+                        //               child: Row(
+                        //             children: [
+                        //               Container(
+                        //                 margin: EdgeInsets.all(5),
+                        //                 width: 70,
+                        //                 height: 70,
+                        //                 decoration: BoxDecoration(
+                        //                     borderRadius:
+                        //                         BorderRadius.circular(100),
+                        //                     gradient: LinearGradient(colors: [
+                        //                       const Color.fromARGB(
+                        //                           255, 37, 37, 37),
+                        //                       const Color.fromARGB(
+                        //                           255, 112, 112, 112)
+                        //                     ])),
+                        //                 child: Icon(
+                        //                   Icons.person,
+                        //                   size: 35,
+                        //                   color: Colors.grey,
+                        //                 ),
+                        //               ),
+                        //               SizedBox(
+                        //                 width: 10,
+                        //               ),
+                        //               Container(
+                        //                 width: 250,
+                        //                 child: Text(
+                        //                   file.path
+                        //                       .split("/")
+                        //                       .last
+                        //                       .split("-")
+                        //                       .last
+                        //                       .substring(
+                        //                           0,
+                        //                           file.path
+                        //                                   .split("/")
+                        //                                   .last
+                        //                                   .split("-")
+                        //                                   .last
+                        //                                   .length -
+                        //                               4),
+                        //                   style: TextStyle(
+                        //                       color: Colors.white,
+                        //                       fontSize: 13),
+                        //                 ),
+                        //               )
+                        //             ],
+                        //           ));
+                        //         })),
 
                         //////////////////////////////////////////////////////////favorite
                         Container(
@@ -777,9 +786,10 @@ class _SongslistState extends State<Songslist>
                                           Navigator.pushNamed(
                                               context, "musicapp",
                                               arguments: file);
-                                          // Navigator.pushNamed(
-                                          //     context, "musicapp",
-                                          //     arguments: file);
+                                          Music.isPlay = true;
+                                          Navigator.pushNamed(
+                                              context, "musicapp",
+                                              arguments: file);
                                         },
                                         child: Container(
                                             margin: EdgeInsets.only(top: 20),

@@ -332,10 +332,10 @@ class _ListenmusicState extends State<Musicpage>
                                   _favorite.get("key");
                                   if (_favorite.get("key") != null) {
                                     ls = _favorite.get("key");
-                                    ls.add(_music);
+                                    ls.add(music.name);
                                     _favorite.put("key", ls);
                                   } else {
-                                    ls.add(_music);
+                                    ls.add(music.name);
                                     _favorite.put("key", ls);
                                   }
                                   print(ls);
@@ -432,7 +432,7 @@ class _ListenmusicState extends State<Musicpage>
                             padding: EdgeInsets.only(left: 10),
                             child: IconButton(
                               onPressed: () {
-                                music.playPrevious();
+                               music.playPrevious();
                               },
                               icon: Icon(
                                 Icons.skip_previous,
@@ -448,7 +448,7 @@ class _ListenmusicState extends State<Musicpage>
                               alignment: Alignment.center,
                               onPressed: () {
                                 setState(() {
-                                  _isrotation  = !_isrotation;
+                                  _isrotation = !_isrotation;
                                   music.Icon = !music.Icon;
 
                                   music.Icon
