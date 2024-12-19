@@ -73,14 +73,18 @@ class _ListenmusicState extends State<Musicpage>
     }
   }
 
-  ////////////////////////////////////////////////////////////////repeate///////////////////////////
+  ////////////////////////////////////////////////////////////////repeate/////////////////////////////////////////
+  
+
+
+
   void _toggleRepeat() {
     setState(() {
       repeat = !repeat;
     });
 
     if (repeat) {
-      // Loop the song
+
       player.setLoopMode(LoopMode.one);
     } else {
       // Stop the loop (it will play once)
@@ -120,6 +124,12 @@ class _ListenmusicState extends State<Musicpage>
     Play.duration();
     print(Play);
     print("=========================================");
+  }
+
+  @override
+  void dispose() {
+    player.dispose();
+    super.dispose();
   }
 
   @override
@@ -266,7 +276,7 @@ class _ListenmusicState extends State<Musicpage>
                                   alignment: Alignment.center,
                                   width: 200,
                                   child: Text(
-                                    _music!.split("/").last.split("-").first,
+                                    music.name.split("/").last.split("-").first,
                                     // _audiofiles[currentIndex].uri.pathSegments.last,
                                     style: TextStyle(
                                         overflow: TextOverflow.ellipsis,
@@ -279,14 +289,14 @@ class _ListenmusicState extends State<Musicpage>
                                 alignment: Alignment.center,
                                 width: 280,
                                 child: Text(
-                                  _music!
+                                  music.name
                                       .split("/")
                                       .last
                                       .split("-")
                                       .last
                                       .substring(
                                           0,
-                                          _music!
+                                          music.name
                                                   .split("/")
                                                   .last
                                                   .split("-")
@@ -432,7 +442,7 @@ class _ListenmusicState extends State<Musicpage>
                             padding: EdgeInsets.only(left: 10),
                             child: IconButton(
                               onPressed: () {
-                               music.playPrevious();
+                                music.playPrevious();
                               },
                               icon: Icon(
                                 Icons.skip_previous,
@@ -489,7 +499,7 @@ class _ListenmusicState extends State<Musicpage>
                                 onPressed: () {
                                   setState(() {
                                     music.repeat = !music.repeat;
-                                    repeat
+                                    music.repeat
                                         ? music.player.setLoopMode(LoopMode.one)
                                         : music.player
                                             .setLoopMode(LoopMode.off);
@@ -516,7 +526,7 @@ class _ListenmusicState extends State<Musicpage>
                     height: he,
                     width: double.infinity,
                     color: Colors.transparent,
-                    duration: Duration(seconds: 3),
+                    duration: Duration(seconds: 2),
                     child: Center(
                       child: Text(
                         "No Lyrics",
@@ -537,12 +547,12 @@ class _ListenmusicState extends State<Musicpage>
                                 ? Icon(
                                     Icons.keyboard_arrow_up_outlined,
                                     color: Colors.white,
-                                    size: 40,
+                                    size: 35,
                                   )
                                 : Icon(
                                     Icons.keyboard_arrow_down,
                                     color: Colors.white,
-                                    size: 40,
+                                    size: 35,
                                   ))
                         : he == 200
                             ? IconButton(

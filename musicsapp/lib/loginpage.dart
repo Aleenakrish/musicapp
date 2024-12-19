@@ -119,7 +119,8 @@ class _LoginpageState extends State<Loginpage> {
                     //   ],
                     // ),
                     color: Colors.transparent),
-                child: Row(
+                child: 
+                Row(
                   children: [
                     Container(
                       margin: EdgeInsets.only(left: 40),

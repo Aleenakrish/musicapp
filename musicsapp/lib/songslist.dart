@@ -28,7 +28,7 @@ class _SongslistState extends State<Songslist>
   final AudioPlayer player = AudioPlayer();
 
   bool icon = false;
-  late AnimationController _controller;
+  late AnimationController controller;
 
   final _favorite = Hive.box("mybox");
   List favorit = [];
@@ -99,6 +99,17 @@ class _SongslistState extends State<Songslist>
   void playNext() {
     Provider.of<providerr>(context, listen: false).automaticNext();
   }
+
+  @override
+  void dispose() {
+    player.dispose();
+    super.dispose();
+  }
+
+
+  ///////////////callbackfunction///////////argument pass cheyyan vendi
+
+  
 
   @override
   Widget build(BuildContext context) {
@@ -510,18 +521,20 @@ class _SongslistState extends State<Songslist>
                                               );
                                             },
 
+                                            //////////////////////////////ontap////////////////
+
                                             onTap: () {
                                               Music.playMusic(file.path);
-                                              audioPlayer
-                                                  .setFilePath(file.path);
+                                              // audioPlayer
+                                              //     .setFilePath(file.path);
 
                                               Music.currentsongIndex = index;
+                                              Music.isPlay = true;
 
                                               Navigator.pushNamed(
                                                   context, "musicapp",
                                                   arguments: file.path);
                                               Music.name = file.path;
-                                              Music.isPlay = true;
                                             },
                                             title: Container(
                                                 // margin: EdgeInsets.only(top: 5),
@@ -778,15 +791,12 @@ class _SongslistState extends State<Songslist>
                                       final file = favorit[index];
                                       return GestureDetector(
                                         onTap: () async {
-                                          playMusic(file);
-                                          // Music.playMusic(file.path);
-                                          // audioPlayer.setFilePath(file.path);
+                                          player.play();
                                           await player.setFilePath(file);
+                                         setState(() {
+                                            Music.isPlay = true;
 
-                                          Navigator.pushNamed(
-                                              context, "musicapp",
-                                              arguments: file);
-                                          Music.isPlay = true;
+                                         });
                                           Navigator.pushNamed(
                                               context, "musicapp",
                                               arguments: file);
@@ -884,10 +894,121 @@ class _SongslistState extends State<Songslist>
                                       );
                                     }))),
                       ]),
-                    )
+                    ),
+                    // Music.isPlay
+                    //     ? GestureDetector(
+                    //         onTap: () {
+                    //           Navigator.pushNamed(context, "musicapp");
+                    //         },
+                    //         child: Container(
+                    //           height: 70,
+                    //           width: MediaQuery.of(context).size.width,
+                    //           decoration: BoxDecoration(
+                    //               borderRadius: BorderRadius.circular(15),
+                    //               gradient: LinearGradient(colors: [Colors.black,Colors.grey])),
+                    //           child: Row(
+                    //             children: [
+                    //               Container(
+                    //                 padding: EdgeInsets.only(left: 10),
+                    //                 height: 62,
+                    //                 width: 62,
+                    //                 decoration: BoxDecoration(
+                    //                     borderRadius: BorderRadius.circular(20),
+                    //                     color: Colors.transparent),
+                    //                 child: ClipRRect(
+                    //                   child: Image.asset(
+                    //                     "./images/log.jpeg",
+                    //                     fit: BoxFit.cover,
+                    //                   ),
+                    //                   borderRadius: BorderRadius.circular(20),
+                    //                 ),
+                    //               ),
+                    //               SizedBox(
+                    //                 width: 10,
+                    //               ),
+                    //               Column(
+                    //                   mainAxisAlignment:
+                    //                       MainAxisAlignment.spaceEvenly,
+                    //                   crossAxisAlignment:
+                    //                       CrossAxisAlignment.start,
+                    //                   children: [
+                    //                     Container(
+                    //                       width: 230,
+                    //                       height: 20,
+                    //                       child: Text(
+                    //                         Music.name
+                    //                             .split("/")
+                    //                             .last
+                    //                             .split("-")
+                    //                             .first,
+                    //                         style: TextStyle(
+                    //                             color: Colors.white,
+                    //                             fontSize: 15),
+                    //                       ),
+                    //                     ),
+                    //                     Container(
+                    //                       width: 200,
+                    //                       height: 15,
+                    //                       child: Text(
+                    //                         Music.name
+                    //                             .split("/")
+                    //                             .last
+                    //                             .split("-")
+                    //                             .last
+                    //                             .substring(
+                    //                                 0,
+                    //                                 Music.name
+                    //                                         .split("/")
+                    //                                         .last
+                    //                                         .split("-")
+                    //                                         .last
+                    //                                         .length -
+                    //                                     4),
+                    //                         style: TextStyle(
+                    //                             color: Colors.white,
+                    //                             fontSize: 12),
+                    //                       ),
+                    //                     ),   
+                    //                   ]),
+                    //                   // IconButton(
+                    //                   //     alignment: Alignment.center,
+                    //                   //     style: IconButton.styleFrom(
+                    //                   //         backgroundColor:
+                    //                   //             const Color.fromARGB(
+                    //                   //                 255, 40, 6, 97)),
+                    //                   //     onPressed: () {
+                    //                   //       setState(() {
+                    //                   //         Music.Icon = !Music.Icon;
+
+                    //                   //        Music.Icon
+                    //                   //             ? controller.forward()
+                    //                   //             : controller.reverse();
+                    //                   //         Music.Icon
+                    //                   //             ? Music.player.pause()
+                    //                   //             : Music.player.play();
+                    //                   //       });
+                    //                   //     },
+                    //                   //     icon: AnimatedIcon(
+                    //                   //         icon: AnimatedIcons.pause_play,
+                    //                   //         size: 30,
+                    //                   //         color: Colors.white,
+                    //                   //         progress: controller)),
+                                  
+                    //               //               
+                    //             ],
+                    //           ),
+                    //         ),
+                    //       )
+                        // : Container(),
+                        Container(
+                          height: 5,
+                        )
                   ],
                 ),
               ),
-            ));
+              
+            )
+            );
   }
+   
 }

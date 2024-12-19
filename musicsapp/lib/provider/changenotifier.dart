@@ -19,7 +19,7 @@ class providerr extends ChangeNotifier {
 
   bool isPlay = false;
 
-  //  int currentindex = 0;
+   int currentindex = 0;
 
   String name = "";
 
@@ -81,11 +81,7 @@ class providerr extends ChangeNotifier {
     return "$minutes:$seconds";
   }
 
-  @override
-  void dispose() {
-    player.dispose();
-    super.dispose();
-  }
+ 
 
   void duration() {
     player.positionStream.listen((position) {
@@ -144,8 +140,11 @@ class providerr extends ChangeNotifier {
   void playNext() {
     if (currentsongIndex < audiofiles.length - 1) {
       currentsongIndex++;
+
       notifyListeners();
+
       playMusic(audiofiles[currentsongIndex].path);
+
       name = audiofiles[currentsongIndex].path;
     }
   }
@@ -155,7 +154,7 @@ class providerr extends ChangeNotifier {
       currentsongIndex--;
       notifyListeners();
       playMusic(audiofiles[currentsongIndex].path);
-      name = audiofiles[currentsongIndex].path;
+      // name = audiofiles[currentsongIndex].path;
     }
   }
 
@@ -167,5 +166,11 @@ class providerr extends ChangeNotifier {
         playNext();
       }
     });
+  }
+
+   @override
+  void dispose() {
+    player.dispose();
+    super.dispose();
   }
 }
