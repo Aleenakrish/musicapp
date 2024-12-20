@@ -380,6 +380,8 @@ class _ListenmusicState extends State<Musicpage>
                               activeColor:
                                   const Color.fromARGB(255, 206, 202, 202),
                               inactiveColor: Colors.white,
+                              
+                              
                               thumbColor: Colors.grey,
                               min: 0.0,
                               max: music.totalDuration.inSeconds.toDouble(),

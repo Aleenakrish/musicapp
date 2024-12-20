@@ -125,15 +125,27 @@ class _SongslistState extends State<Songslist>
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Container(
-                      padding: EdgeInsets.only(left: 15, top: 40),
-                      child: Text(
-                        "Hai Aleena.",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold),
-                      ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(
+                          padding: EdgeInsets.only(left: 15, top: 40),
+                          child: Text(
+                            "Hai Aleena.",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        Container(
+                           padding: EdgeInsets.only(left: 15, top: 40),
+                          //  height: ,
+                          child: TextButton(onPressed: (){
+
+                          }, child: Icon(Icons.dark_mode,color: Colors.white,size: 30,)),
+                        )
+                      ],
                     ),
                     SizedBox(
                       height: 10,

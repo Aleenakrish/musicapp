@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -9,6 +10,8 @@ class providerr extends ChangeNotifier {
   final AudioPlayer player = AudioPlayer();
   List<File> audiofiles = [];
 
+  late List<FileSystemEntity> songs = [];
+
   bool rotation = false;
 
   Duration currentPosition = Duration.zero;
@@ -16,6 +19,8 @@ class providerr extends ChangeNotifier {
 
   int currentsongIndex = 0;
   late AnimationController _controller;
+
+  bool _isLoading = true;
 
   bool isPlay = false;
 
@@ -154,7 +159,7 @@ class providerr extends ChangeNotifier {
       currentsongIndex--;
       notifyListeners();
       playMusic(audiofiles[currentsongIndex].path);
-      // name = audiofiles[currentsongIndex].path;
+      name = audiofiles[currentsongIndex].path;
     }
   }
 
@@ -168,6 +173,21 @@ class providerr extends ChangeNotifier {
     });
   }
 
+
+  //  void _shuffleAndPlay() {
+  //   if (songs.isEmpty) {
+  //     return;
+  //   }
+
+  //   // Shuffle the list of songs
+  //   songs.shuffle(Random());
+
+  //   // Get the first shuffled song
+  //   String songPath = songs.first.path;
+
+  //   // Play the shuffled song
+  //   player.play(songPath, _isLoading : true);
+  // }
    @override
   void dispose() {
     player.dispose();
