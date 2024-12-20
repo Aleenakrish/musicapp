@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
@@ -23,7 +24,7 @@ class _ListenmusicState extends State<Musicpage>
 
   List<File> musicFiles = [];
 
-  // List Favorite = [];
+  // List<String> songs = [];
 
   final _favorite = Hive.box("mybox");
 // ===========================================================================================================
@@ -74,9 +75,6 @@ class _ListenmusicState extends State<Musicpage>
   }
 
   ////////////////////////////////////////////////////////////////repeate/////////////////////////////////////////
-  
-
-
 
   void _toggleRepeat() {
     setState(() {
@@ -84,7 +82,6 @@ class _ListenmusicState extends State<Musicpage>
     });
 
     if (repeat) {
-
       player.setLoopMode(LoopMode.one);
     } else {
       // Stop the loop (it will play once)
@@ -93,20 +90,6 @@ class _ListenmusicState extends State<Musicpage>
   }
 
   ///////////////////////////////////////////////playnextprev///////////////////////////////////////////////////
-
-  // Future<void> playNext() async {
-  //   setState(() {
-  //     currentIndex = (currentIndex + 1) % musicFiles.length;
-  //   });
-  //   playMusic(musicFiles[currentIndex].path);
-  // }
-
-  // Future<void> playPrevious() async {
-  //   setState(() {
-  //     currentIndex = (currentIndex - 1 + musicFiles.length) % musicFiles.length;
-  //   });
-  //   playMusic(musicFiles[currentIndex].path);
-  // }
 
   String? _formatDuration(Duration duration) {
     final minutes = duration.inMinutes.remainder(60).toString().padLeft(2, "0");
@@ -125,6 +108,14 @@ class _ListenmusicState extends State<Musicpage>
     print(Play);
     print("=========================================");
   }
+  ///////////////////////////////////////////////////////////////////////////////
+
+  void shuffleAndPlaySong() {
+    musicFiles.shuffle(Random()); // Shuffle the list randomly
+    player.play(); // Play the first song in the shuffled list
+  }
+
+  ///////////////////////////////////////////////////////////////////////////////////////
 
   @override
   void dispose() {
@@ -327,9 +318,11 @@ class _ListenmusicState extends State<Musicpage>
                                       .setVolume(music.muted ? 0.0 : 1.0);
                                 },
                                 icon: Icon(
-                                  music.muted ? Icons.mic_off : Icons.mic_none,
+                                  music.muted
+                                      ? Icons.volume_off_rounded
+                                      : Icons.volume_up,
                                   color: Colors.white,
-                                  size: 30,
+                                  size: 35,
                                 )),
                           ),
                           Container(
@@ -358,7 +351,7 @@ class _ListenmusicState extends State<Musicpage>
                                     ? Icons.favorite
                                     : Icons.favorite_outline,
                                 color: favorite ? Colors.red : Colors.white,
-                                size: 25,
+                                size: 30,
                               ),
                             ),
                           )
@@ -380,8 +373,6 @@ class _ListenmusicState extends State<Musicpage>
                               activeColor:
                                   const Color.fromARGB(255, 206, 202, 202),
                               inactiveColor: Colors.white,
-                              
-                              
                               thumbColor: Colors.grey,
                               min: 0.0,
                               max: music.totalDuration.inSeconds.toDouble(),
@@ -425,6 +416,8 @@ class _ListenmusicState extends State<Musicpage>
                               child: IconButton(
                                 onPressed: () {
                                   setState(() {
+                                    //  music. Shuffle;
+                                    music.shuffleAndPlaySong();
                                     music.Shuffle = !music.Shuffle;
                                   });
                                 },
@@ -524,7 +517,7 @@ class _ListenmusicState extends State<Musicpage>
                     ],
                   ),
                   AnimatedContainer(
-                    padding: EdgeInsets.only(top: 20),
+                    margin: EdgeInsets.only(top: 20),
                     height: he,
                     width: double.infinity,
                     color: Colors.transparent,

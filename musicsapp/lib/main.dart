@@ -11,20 +11,19 @@ import 'package:musicapp/provider/changenotifier.dart';
 import 'package:provider/provider.dart';
 import 'package:musicapp/songslist.dart';
 
-void main()async {
+void main() async {
   await Hive.initFlutter();
-  var favorite= await Hive.openBox("mybox");
-  runApp(ChangeNotifierProvider(create: (context)=>providerr(),
-  child: 
-    MaterialApp(
-    home: Loginpage(),
-    routes: {
-      // "songslist":(context)=>Songslist(),
-      "musicapp": (context) => Musicpage(),
-      "songslist": (context) => Songslist(),
-      "addfreepage": (context) => Addfreepage(),
-      // "favorite":(context)=>FavoriteMusiclist()
-    },
-    )
-  ));
+  var favorite = await Hive.openBox("mybox");
+  runApp(ChangeNotifierProvider(
+      create: (context) => providerr(),
+      child: MaterialApp(
+        home: Loginpage(),
+        routes: {
+          // "songslist":(context)=>Songslist(),
+          "musicapp": (context) => Musicpage(),
+          "songslist": (context) => Songslist(),
+          "addfreepage": (context) => Addfreepage(),
+          // "favorite":(context)=>FavoriteMusiclist()
+        },
+      )));
 }

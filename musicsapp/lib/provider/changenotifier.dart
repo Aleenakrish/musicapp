@@ -18,7 +18,7 @@ class providerr extends ChangeNotifier {
   Duration totalDuration = Duration.zero;
 
   int currentsongIndex = 0;
-  late AnimationController _controller;
+  // late AnimationController _controller;
 
   bool _isLoading = true;
 
@@ -188,6 +188,20 @@ class providerr extends ChangeNotifier {
   //   // Play the shuffled song
   //   player.play(songPath, _isLoading : true);
   // }
+  ///////////////////////////////////////////////////////////////////////
+  
+void shuffleAndPlaySong() {
+    audiofiles.shuffle(Random());  // Shuffle the list randomly
+    player.play();  // Play the first song in the shuffled list
+  }
+
+
+
+
+
+
+
+
    @override
   void dispose() {
     player.dispose();

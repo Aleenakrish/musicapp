@@ -18,8 +18,7 @@ class Songslist extends StatefulWidget {
   State<Songslist> createState() => _SongslistState();
 }
 
-class _SongslistState extends State<Songslist>
-    with SingleTickerProviderStateMixin {
+class _SongslistState extends State<Songslist> with TickerProviderStateMixin {
   late TabController _tabController;
   TextEditingController search = TextEditingController();
   List<File> _audiofiles = [];
@@ -43,6 +42,8 @@ class _SongslistState extends State<Songslist>
     // requestPermission().then((_) => loadMusicFiles());
     favortes();
     playNext();
+    controller =
+        AnimationController(vsync: this, duration: Duration(milliseconds: 500));
   }
 
   Future<void> loadMusicFiles() async {
@@ -106,10 +107,17 @@ class _SongslistState extends State<Songslist>
     super.dispose();
   }
 
+  /////////////////////////////////////////////////////////////////////////theme//////////////////////////////
+  late bool theme;
+  List ls = [];
+
+  void b() {
+    theme = Provider.of(context, listen: false).ls[0];
+
+    print(theme);
+  }
 
   ///////////////callbackfunction///////////argument pass cheyyan vendi
-
-  
 
   @override
   Widget build(BuildContext context) {
@@ -139,11 +147,15 @@ class _SongslistState extends State<Songslist>
                           ),
                         ),
                         Container(
-                           padding: EdgeInsets.only(left: 15, top: 40),
+                          padding: EdgeInsets.only(left: 15, top: 40),
                           //  height: ,
-                          child: TextButton(onPressed: (){
-
-                          }, child: Icon(Icons.dark_mode,color: Colors.white,size: 30,)),
+                          child: TextButton(
+                              onPressed: () {},
+                              child: Icon(
+                                Icons.dark_mode,
+                                color: Colors.white,
+                                size: 30,
+                              )),
                         )
                       ],
                     ),
@@ -628,7 +640,7 @@ class _SongslistState extends State<Songslist>
                                                                     .white,
                                                                 fontSize: 12),
                                                           ),
-                                                        )
+                                                        ),
                                                       ],
                                                     ),
                                                   ],
@@ -642,21 +654,29 @@ class _SongslistState extends State<Songslist>
 
                         Container(
                             child: ListView.builder(
+                              
                                 padding: EdgeInsets.only(top: 16),
                                 itemCount: Music.audiofiles.length,
                                 itemBuilder: (context, index) {
                                   final file = Music.audiofiles[index];
                                   return GestureDetector(
                                     onTap: () async {
-                                      await audioPlayer.setFilePath(file.path);
-                                      audioPlayer.play();
-                                      Music.isPlay = true;
+                                      await player.setFilePath(file.path);
+                                      // audioPlayer.play();
+                                      setState(() {
+                                        Music.isPlay = true;
+                                      });
+                                      Music.name = file.path;
+                                      Music.playMusic(file.path);
                                     },
+                                    
                                     child: Container(
+                                      height: 70,
                                       margin:
                                           EdgeInsets.only(left: 16, top: 10),
                                       child: Row(
                                         children: [
+                                         
                                           Container(
                                               height: 60,
                                               width: 60,
@@ -675,12 +695,14 @@ class _SongslistState extends State<Songslist>
                                                 color: Colors.white,
                                                 size: 25,
                                               )),
+                                              
                                           Column(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.spaceEvenly,
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
                                             children: [
+                                              
                                               Container(
                                                 padding:
                                                     EdgeInsets.only(left: 16),
@@ -726,12 +748,23 @@ class _SongslistState extends State<Songslist>
                                                       color: Colors.white,
                                                       fontSize: 12),
                                                 ),
-                                              )
+                                              ),
+                                              SizedBox(height: 10,),
+                                               Container(
+                                                margin: EdgeInsets.only(left: 10),
+                                                height: 1,
+                                                width: 290,
+                                                color: const Color.fromARGB(255, 75, 74, 74),
+                                              ),
+                                              
                                             ],
                                           ),
+                                          
                                         ],
                                       ),
+                                      
                                     ),
+                                    
                                   );
                                 })),
                         //////////////////////////////////////////////////////////////////////artist
@@ -795,232 +828,256 @@ class _SongslistState extends State<Songslist>
 
                         //////////////////////////////////////////////////////////favorite
                         Container(
-                            child: Expanded(
-                                child: ListView.builder(
-                                    padding: EdgeInsets.only(top: 5, left: 10),
-                                    itemCount: favorit.length,
-                                    itemBuilder: (context, index) {
-                                      final file = favorit[index];
-                                      return GestureDetector(
-                                        onTap: () async {
-                                          player.play();
-                                          await player.setFilePath(file);
-                                         setState(() {
-                                            Music.isPlay = true;
-
-                                         });
-                                          Navigator.pushNamed(
-                                              context, "musicapp",
-                                              arguments: file);
-                                        },
-                                        child: Container(
-                                            margin: EdgeInsets.only(top: 20),
-                                            width: MediaQuery.of(context)
-                                                .size
-                                                .width,
+                          child: Expanded(
+                            child: ListView.builder(
+                              padding: EdgeInsets.only(top: 5),
+                              itemCount: favorit.length,
+                              itemBuilder: (context, index) {
+                                final file = favorit[index];
+                                return GestureDetector(
+                                  onTap: () async {
+                                    await player.setFilePath(file);
+                                    Music.playMusic(file);
+                                    setState(() {
+                                      Music.isPlay = true;
+                                    });
+                                    Navigator.pushNamed(context, "musicapp",
+                                        arguments: file);
+                                    Music.name = file;
+                                  },
+                                  child: Container(
+                                      margin:
+                                          EdgeInsets.only(top: 20, left: 10),
+                                      width: MediaQuery.of(context).size.width,
+                                      height: 70,
+                                      child: Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          Container(
+                                            // padding: EdgeInsets.only(left: 10),
+                                            width: 60,
                                             height: 60,
-                                            child: Row(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
-                                              children: [
-                                                Container(
-                                                  width: 60,
-                                                  height: 60,
-                                                  decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              15),
-                                                      gradient: LinearGradient(
-                                                          colors: [
-                                                            const Color
-                                                                .fromARGB(255,
-                                                                37, 37, 37),
-                                                            const Color
-                                                                .fromARGB(255,
-                                                                112, 112, 112)
-                                                          ])),
-                                                  child: ClipRRect(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            15),
-                                                    child: Image.asset(
-                                                      "./images/log.jpeg",
-                                                      fit: BoxFit.cover,
-                                                    ),
-                                                  ),
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(5),
+                                                color: Colors.transparent),
+                                            child: ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                              child: Image.asset(
+                                                "./images/log.jpeg",
+                                                fit: BoxFit.cover,
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: 10,
+                                          ),
+                                          Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceEvenly,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                file
+                                                    .split("/")
+                                                    .last
+                                                    .split("-")
+                                                    .first,
+                                                style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 15),
+                                              ),
+                                              Container(
+                                                width: 250,
+                                                child: Text(
+                                                  file
+                                                      .split("/")
+                                                      .last
+                                                      .split("-")
+                                                      .last
+                                                      .substring(
+                                                          0,
+                                                          file
+                                                                  .split("/")
+                                                                  .last
+                                                                  .split("-")
+                                                                  .last
+                                                                  .length -
+                                                              4),
+                                                  style: TextStyle(
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                      color: Colors.white,
+                                                      fontSize: 12),
                                                 ),
-                                                SizedBox(
-                                                  width: 20,
-                                                ),
-                                                Column(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceEvenly,
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    Container(
-                                                      width: 250,
-                                                      child: Text(
-                                                        file
-                                                            .split("/")
-                                                            .last
-                                                            .split("-")
-                                                            .first,
-                                                        style: TextStyle(
-                                                            color: Colors.white,
-                                                            fontSize: 15),
-                                                      ),
-                                                    ),
-                                                    Container(
-                                                      width: 250,
-                                                      child: Text(
-                                                        file
-                                                            .split("/")
-                                                            .last
-                                                            .split("-")
-                                                            .last
-                                                            .substring(
-                                                                0,
-                                                                file
-                                                                        .split(
-                                                                            "/")
-                                                                        .last
-                                                                        .split(
-                                                                            "-")
-                                                                        .last
-                                                                        .length -
-                                                                    4),
-                                                        style: TextStyle(
-                                                            overflow:
-                                                                TextOverflow
-                                                                    .ellipsis,
-                                                            color: Colors.white,
-                                                            fontSize: 12),
-                                                      ),
-                                                    )
-                                                  ],
-                                                ),
-                                              ],
-                                            )),
-                                      );
-                                    }))),
+                                              ),
+                                               SizedBox(height: 10,),
+                                               Container(
+                                                // margin: EdgeInsets.only(left: 10),
+                                                height: 1,
+                                                width: 290,
+                                                color: const Color.fromARGB(255, 75, 74, 74),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      )),
+                                );
+                              },
+                            ),
+                          ),
+                        ),
                       ]),
                     ),
-                    // Music.isPlay
-                    //     ? GestureDetector(
-                    //         onTap: () {
-                    //           Navigator.pushNamed(context, "musicapp");
-                    //         },
-                    //         child: Container(
-                    //           height: 70,
-                    //           width: MediaQuery.of(context).size.width,
-                    //           decoration: BoxDecoration(
-                    //               borderRadius: BorderRadius.circular(15),
-                    //               gradient: LinearGradient(colors: [Colors.black,Colors.grey])),
-                    //           child: Row(
-                    //             children: [
-                    //               Container(
-                    //                 padding: EdgeInsets.only(left: 10),
-                    //                 height: 62,
-                    //                 width: 62,
-                    //                 decoration: BoxDecoration(
-                    //                     borderRadius: BorderRadius.circular(20),
-                    //                     color: Colors.transparent),
-                    //                 child: ClipRRect(
-                    //                   child: Image.asset(
-                    //                     "./images/log.jpeg",
-                    //                     fit: BoxFit.cover,
-                    //                   ),
-                    //                   borderRadius: BorderRadius.circular(20),
-                    //                 ),
-                    //               ),
-                    //               SizedBox(
-                    //                 width: 10,
-                    //               ),
-                    //               Column(
-                    //                   mainAxisAlignment:
-                    //                       MainAxisAlignment.spaceEvenly,
-                    //                   crossAxisAlignment:
-                    //                       CrossAxisAlignment.start,
-                    //                   children: [
-                    //                     Container(
-                    //                       width: 230,
-                    //                       height: 20,
-                    //                       child: Text(
-                    //                         Music.name
-                    //                             .split("/")
-                    //                             .last
-                    //                             .split("-")
-                    //                             .first,
-                    //                         style: TextStyle(
-                    //                             color: Colors.white,
-                    //                             fontSize: 15),
-                    //                       ),
-                    //                     ),
-                    //                     Container(
-                    //                       width: 200,
-                    //                       height: 15,
-                    //                       child: Text(
-                    //                         Music.name
-                    //                             .split("/")
-                    //                             .last
-                    //                             .split("-")
-                    //                             .last
-                    //                             .substring(
-                    //                                 0,
-                    //                                 Music.name
-                    //                                         .split("/")
-                    //                                         .last
-                    //                                         .split("-")
-                    //                                         .last
-                    //                                         .length -
-                    //                                     4),
-                    //                         style: TextStyle(
-                    //                             color: Colors.white,
-                    //                             fontSize: 12),
-                    //                       ),
-                    //                     ),   
-                    //                   ]),
-                    //                   // IconButton(
-                    //                   //     alignment: Alignment.center,
-                    //                   //     style: IconButton.styleFrom(
-                    //                   //         backgroundColor:
-                    //                   //             const Color.fromARGB(
-                    //                   //                 255, 40, 6, 97)),
-                    //                   //     onPressed: () {
-                    //                   //       setState(() {
-                    //                   //         Music.Icon = !Music.Icon;
+                    Music.isPlay
+                        ? GestureDetector(
+                            onTap: () {
+                              Navigator.pushNamed(
+                                context,
+                                "musicapp",
+                              );
+                              // Navigator.pushNamed(context, "musicapp");
+                            },
+                            child: Container(
+                                margin: EdgeInsets.only(left: 5, right: 5),
+                                width: MediaQuery.of(context).size.width,
+                                height: 60,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    gradient: LinearGradient(colors: [
+                                      const Color.fromARGB(255, 37, 37, 37),
+                                      const Color.fromARGB(255, 112, 112, 112)
+                                    ])),
+                                child: Row(children: [
+                                  Container(
+                                    padding: EdgeInsets.only(left: 7),
+                                    width: 60,
+                                    height: 50,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(15),
+                                        color: Colors.transparent),
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(10),
+                                      child: Image.asset(
+                                        "./images/log.jpeg",
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 3,
+                                  ),
+                                  Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Container(
+                                        padding: EdgeInsets.only(left: 7),
+                                        width: 150,
+                                        height: 20,
+                                        child: Text(
+                                          Music.name
+                                              .split("/")
+                                              .last
+                                              .split("-")
+                                              .first,
+                                          style: TextStyle(
+                                              overflow: TextOverflow.ellipsis,
+                                              color: Colors.white,
+                                              fontSize: 15),
+                                        ),
+                                      ),
+                                      Container(
+                                        padding: EdgeInsets.only(left: 7),
+                                        width: 150,
+                                        height: 15,
+                                        child: Text(
+                                          Music.name
+                                              .split("/")
+                                              .last
+                                              .split("-")
+                                              .last
+                                              .substring(
+                                                  0,
+                                                  Music.name
+                                                          .split("/")
+                                                          .last
+                                                          .split("-")
+                                                          .last
+                                                          .length -
+                                                      4),
+                                          style: TextStyle(
+                                              overflow: TextOverflow.ellipsis,
+                                              color: Colors.white,
+                                              fontSize: 12),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
 
-                    //                   //        Music.Icon
-                    //                   //             ? controller.forward()
-                    //                   //             : controller.reverse();
-                    //                   //         Music.Icon
-                    //                   //             ? Music.player.pause()
-                    //                   //             : Music.player.play();
-                    //                   //       });
-                    //                   //     },
-                    //                   //     icon: AnimatedIcon(
-                    //                   //         icon: AnimatedIcons.pause_play,
-                    //                   //         size: 30,
-                    //                   //         color: Colors.white,
-                    //                   //         progress: controller)),
-                                  
-                    //               //               
-                    //             ],
-                    //           ),
-                    //         ),
-                    //       )
-                        // : Container(),
-                        Container(
-                          height: 5,
-                        )
+                                  IconButton(
+                                    onPressed: () {
+                                      Music.playPrevious();
+                                    },
+                                    icon: Icon(
+                                      Icons.skip_previous,
+                                      size: 30,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+
+                                  // SizedBox(
+                                  //   width: 20,
+                                  // ),
+
+                                  IconButton(
+                                      alignment: Alignment.center,
+                                      style: IconButton.styleFrom(
+                                          backgroundColor: Colors.transparent),
+                                      onPressed: () {
+                                        setState(() {
+                                          Music.Icon = !Music.Icon;
+
+                                          Music.Icon
+                                              ? controller.forward()
+                                              : controller.reverse();
+                                          Music.Icon
+                                              ? Music.player.pause()
+                                              : Music.player.play();
+                                        });
+                                      },
+                                      icon: AnimatedIcon(
+                                          icon: AnimatedIcons.pause_play,
+                                          size: 30,
+                                          color: Colors.white,
+                                          progress: controller)),
+                                  IconButton(
+                                    onPressed: () {
+                                      Music.playNext();
+                                    },
+                                    icon: Icon(
+                                      Icons.skip_next,
+                                      size: 30,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ])),
+                          )
+                        : Container(),
+                    Container(
+                      height: 5,
+                    )
                   ],
                 ),
               ),
-              
-            )
-            );
+            ));
   }
-   
 }
