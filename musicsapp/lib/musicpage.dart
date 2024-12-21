@@ -29,15 +29,10 @@ class _ListenmusicState extends State<Musicpage>
   final _favorite = Hive.box("mybox");
 // ===========================================================================================================
   double he = 0;
-  String? _music;
-  int currentIndex = 0;
+  String? _music; 
   late AnimationController _controller;
-  bool icon = false;
   bool favorite = false;
   bool _isrotation = true;
-  bool Shuffle = false;
-  bool repeat = false;
-  bool _ismuted = false;
   bool arrow = false;
 // ===========================================================================================================
   @override
@@ -65,29 +60,29 @@ class _ListenmusicState extends State<Musicpage>
 
   // =============================================================================================================
 
-  Future<void> playMusic(String filePath) async {
-    try {
-      await player.setFilePath(filePath);
-      await player.play();
-    } catch (e) {
-      print("Error Playing audio:$e");
-    }
-  }
+  // Future<void> playMusic(String filePath) async {
+  //   try {
+  //     await player.setFilePath(filePath);
+  //     await player.play();
+  //   } catch (e) {
+  //     print("Error Playing audio:$e");
+  //   }
+  // }
 
   ////////////////////////////////////////////////////////////////repeate/////////////////////////////////////////
 
-  void _toggleRepeat() {
-    setState(() {
-      repeat = !repeat;
-    });
+  // void _toggleRepeat() {
+  //   setState(() {
+  //     repeat = !repeat;
+  //   });
 
-    if (repeat) {
-      player.setLoopMode(LoopMode.one);
-    } else {
-      // Stop the loop (it will play once)
-      player.setLoopMode(LoopMode.off);
-    }
-  }
+  //   if (repeat) {
+  //     player.setLoopMode(LoopMode.one);
+  //   } else {
+  //     // Stop the loop (it will play once)
+  //     player.setLoopMode(LoopMode.off);
+  //   }
+  // }
 
   ///////////////////////////////////////////////playnextprev///////////////////////////////////////////////////
 
@@ -111,8 +106,8 @@ class _ListenmusicState extends State<Musicpage>
   ///////////////////////////////////////////////////////////////////////////////
 
   void shuffleAndPlaySong() {
-    musicFiles.shuffle(Random()); // Shuffle the list randomly
-    player.play(); // Play the first song in the shuffled list
+    musicFiles.shuffle(Random());
+    player.play();
   }
 
   ///////////////////////////////////////////////////////////////////////////////////////
@@ -125,7 +120,6 @@ class _ListenmusicState extends State<Musicpage>
 
   @override
   Widget build(BuildContext context) {
-    _music = ModalRoute.of(context)!.settings.arguments as String;
     return Consumer<providerr>(
         builder: (context, music, child) => Scaffold(
               extendBodyBehindAppBar: true,

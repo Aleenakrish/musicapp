@@ -27,11 +27,10 @@ class _LoginpageState extends State<Loginpage> {
       backgroundColor: Colors.black,
       body: Container(
           decoration: BoxDecoration(
-              // gradient: LinearGradient(
-              // colors: [Colors.black, const Color.fromARGB(255, 87, 86, 86)],
-              // begin: Alignment.topLeft,
-              // end: Alignment.bottomRight)
-              color: Colors.black),
+              gradient: LinearGradient(
+                  colors: [Colors.black, const Color.fromARGB(255, 87, 86, 86)],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight)),
           child: ListView(
             children: [
               Container(
@@ -39,13 +38,13 @@ class _LoginpageState extends State<Loginpage> {
                 // color: Colors.black,
                 child: Row(
                   children: [
-                    Container(
-                        child: IconButton(
-                            onPressed: () {},
-                            icon: Icon(
-                              Icons.arrow_back,
-                              color: Colors.white,
-                            ))),
+                    // Container(
+                    //     child: IconButton(
+                    //         onPressed: () {},
+                    //         icon: Icon(
+                    //           Icons.arrow_back,
+                    //           color: Colors.white,
+                    //         ))),
                     SizedBox(
                       width: 120,
                     ),
@@ -67,16 +66,16 @@ class _LoginpageState extends State<Loginpage> {
               // SizedBox(
               //   height: 40,
               // ),
-              Container(
-                child: Center(
-                    child: Text(
-                  "Welcome",
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 27,
-                      fontWeight: FontWeight.bold),
-                )),
-              ),
+              // Container(
+              //   child: Center(
+              //       child: Text(
+              //     "Welcome",
+              //     style: TextStyle(
+              //         color: Colors.white,
+              //         fontSize: 27,
+              //         fontWeight: FontWeight.bold),
+              //   )),
+              // ),
               SizedBox(
                 height: 50,
               ),
@@ -84,21 +83,28 @@ class _LoginpageState extends State<Loginpage> {
                 height: 310,
                 width: 310,
                 alignment: Alignment.center,
-                // child: Container(
-                //   height: 300,
-                //   width: 300,
-                //   decoration: BoxDecoration(
-                //       borderRadius: BorderRadius.circular(150),
-                //       color: const Color.fromARGB(255, 104, 103, 103)),
-                // alignment: Alignment.center,
-                child: Center(
-                  child: AnimatedOpacity(
-                    opacity: _opacity,
-                    duration: Duration(seconds: 4),
-                    child: Image.asset(
-                      "./images/r.jpg",
-                      fit: BoxFit.cover,
-                    ), // Replace with your image path
+                child: Container(
+                  height: 300,
+                  width: 300,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(150),
+                      color: const Color.fromARGB(255, 104, 103, 103)),
+                  alignment: Alignment.center,
+                  child: Center(
+                    child: AnimatedOpacity(
+                        opacity: _opacity,
+                        duration: Duration(seconds: 4),
+                        child: ClipRRect(borderRadius: BorderRadius.circular(150),
+                          child: Image.asset(
+                            "./images/r.jpg",
+                            fit: BoxFit.cover,
+                          ),
+                        )
+                        // Image.asset(
+                        //   "./images/r.jpg",
+                        //   fit: BoxFit.cover,
+                        // ), // Replace with your image path
+                        ),
                   ),
                 ),
               ),
@@ -119,8 +125,7 @@ class _LoginpageState extends State<Loginpage> {
                     //   ],
                     // ),
                     color: Colors.transparent),
-                child: 
-                Row(
+                child: Row(
                   children: [
                     Container(
                       margin: EdgeInsets.only(left: 40),

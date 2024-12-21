@@ -23,7 +23,7 @@ void main() async {
           "musicapp": (context) => Musicpage(),
           "songslist": (context) => Songslist(),
           "addfreepage": (context) => Addfreepage(),
-          // "favorite":(context)=>FavoriteMusiclist()
+          
         },
       )));
 }

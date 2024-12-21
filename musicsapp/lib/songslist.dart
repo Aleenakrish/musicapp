@@ -26,7 +26,7 @@ class _SongslistState extends State<Songslist> with TickerProviderStateMixin {
 
   final AudioPlayer player = AudioPlayer();
 
-  bool icon = false;
+  // bool icon = false;
   late AnimationController controller;
 
   final _favorite = Hive.box("mybox");
@@ -46,49 +46,49 @@ class _SongslistState extends State<Songslist> with TickerProviderStateMixin {
         AnimationController(vsync: this, duration: Duration(milliseconds: 500));
   }
 
-  Future<void> loadMusicFiles() async {
-    _audiofiles = await getMusicFile();
-    setState(() {});
-    data();
-  }
+  // Future<void> loadMusicFiles() async {
+  //   _audiofiles = await getMusicFile();
+  //   setState(() {});
+  //   data();
+  // }
 
   void data() {
     var data = Provider.of<providerr>(context, listen: false);
     data.loadMusicFiles();
   }
 
-  Future<void> requestPermission() async {
-    if (await Permission.storage.request().isGranted ||
-        await Permission.manageExternalStorage.request().isGranted) {
-      print("permmission granted");
-    } else {
-      print("permission denied");
-    }
-  }
+  // Future<void> requestPermission() async {
+  //   if (await Permission.storage.request().isGranted ||
+  //       await Permission.manageExternalStorage.request().isGranted) {
+  //     print("permmission granted");
+  //   } else {
+  //     print("permission denied");
+  //   }
+  // }
 
-  Future<List<File>> getMusicFile() async {
-    final directory = await getExternalStorageDirectory();
-    // final musicDirectory = Directory('${directory.path}');
-    final musicDirectory = Directory('/storage/emulated/0/Music');
-    if (musicDirectory.existsSync()) {
-      return musicDirectory
-          .listSync()
-          .where((file) => file.path.endsWith(".m4a"))
-          .map((file) => File(file.path))
-          .toList();
-    } else {
-      return [];
-    }
-  }
+  // Future<List<File>> getMusicFile() async {
+  //   final directory = await getExternalStorageDirectory();
+  //   // final musicDirectory = Directory('${directory.path}');
+  //   final musicDirectory = Directory('/storage/emulated/0/Music');
+  //   if (musicDirectory.existsSync()) {
+  //     return musicDirectory
+  //         .listSync()
+  //         .where((file) => file.path.endsWith(".m4a"))
+  //         .map((file) => File(file.path))
+  //         .toList();
+  //   } else {
+  //     return [];
+  //   }
+  // }
 
-  final Player = AudioPlayer();
-  Future<void> playMusic(String filePath) async {
-    try {
-      await Player.play();
-    } catch (e) {
-      print("Error Playing audio:$e");
-    }
-  }
+  // final Player = AudioPlayer();
+  // Future<void> playMusic(String filePath) async {
+  //   try {
+  //     await Player.play();
+  //   } catch (e) {
+  //     print("Error Playing audio:$e");
+  //   }
+  // }
 
   void favortes() {
     if (_favorite.get("key") != null) {
@@ -108,14 +108,14 @@ class _SongslistState extends State<Songslist> with TickerProviderStateMixin {
   }
 
   /////////////////////////////////////////////////////////////////////////theme//////////////////////////////
-  late bool theme;
-  List ls = [];
+  // late bool theme;
+  // List ls = [];
 
-  void b() {
-    theme = Provider.of(context, listen: false).ls[0];
+  // void b() {
+  //   theme = Provider.of(context, listen: false).ls[0];
 
-    print(theme);
-  }
+  //   print(theme);
+  // }
 
   ///////////////callbackfunction///////////argument pass cheyyan vendi
 
@@ -654,7 +654,6 @@ class _SongslistState extends State<Songslist> with TickerProviderStateMixin {
 
                         Container(
                             child: ListView.builder(
-                              
                                 padding: EdgeInsets.only(top: 16),
                                 itemCount: Music.audiofiles.length,
                                 itemBuilder: (context, index) {
@@ -669,14 +668,12 @@ class _SongslistState extends State<Songslist> with TickerProviderStateMixin {
                                       Music.name = file.path;
                                       Music.playMusic(file.path);
                                     },
-                                    
                                     child: Container(
                                       height: 70,
                                       margin:
                                           EdgeInsets.only(left: 16, top: 10),
                                       child: Row(
                                         children: [
-                                         
                                           Container(
                                               height: 60,
                                               width: 60,
@@ -695,14 +692,12 @@ class _SongslistState extends State<Songslist> with TickerProviderStateMixin {
                                                 color: Colors.white,
                                                 size: 25,
                                               )),
-                                              
                                           Column(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.spaceEvenly,
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
                                             children: [
-                                              
                                               Container(
                                                 padding:
                                                     EdgeInsets.only(left: 16),
@@ -749,22 +744,22 @@ class _SongslistState extends State<Songslist> with TickerProviderStateMixin {
                                                       fontSize: 12),
                                                 ),
                                               ),
-                                              SizedBox(height: 10,),
-                                               Container(
-                                                margin: EdgeInsets.only(left: 10),
+                                              SizedBox(
+                                                height: 10,
+                                              ),
+                                              Container(
+                                                margin:
+                                                    EdgeInsets.only(left: 10),
                                                 height: 1,
                                                 width: 290,
-                                                color: const Color.fromARGB(255, 75, 74, 74),
+                                                color: const Color.fromARGB(
+                                                    255, 75, 74, 74),
                                               ),
-                                              
                                             ],
                                           ),
-                                          
                                         ],
                                       ),
-                                      
                                     ),
-                                    
                                   );
                                 })),
                         //////////////////////////////////////////////////////////////////////artist
@@ -914,12 +909,15 @@ class _SongslistState extends State<Songslist> with TickerProviderStateMixin {
                                                       fontSize: 12),
                                                 ),
                                               ),
-                                               SizedBox(height: 10,),
-                                               Container(
+                                              SizedBox(
+                                                height: 10,
+                                              ),
+                                              Container(
                                                 // margin: EdgeInsets.only(left: 10),
                                                 height: 1,
                                                 width: 290,
-                                                color: const Color.fromARGB(255, 75, 74, 74),
+                                                color: const Color.fromARGB(
+                                                    255, 75, 74, 74),
                                               ),
                                             ],
                                           ),
@@ -939,7 +937,7 @@ class _SongslistState extends State<Songslist> with TickerProviderStateMixin {
                                 context,
                                 "musicapp",
                               );
-                              // Navigator.pushNamed(context, "musicapp");
+                             
                             },
                             child: Container(
                                 margin: EdgeInsets.only(left: 5, right: 5),
