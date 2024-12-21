@@ -17,7 +17,7 @@ void main() async {
   runApp(ChangeNotifierProvider(
       create: (context) => providerr(),
       child: MaterialApp(
-        home: Loginpage(),
+        home: Songslist(),
         routes: {
           // "songslist":(context)=>Songslist(),
           "musicapp": (context) => Musicpage(),
